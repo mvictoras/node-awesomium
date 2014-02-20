@@ -3,6 +3,13 @@
   "version": "0.0.1",
   "description": "Awesomium wrapper",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mvictoras/node-awesomium.git"
+  },
+  "keywords": [
+    "awesomium"
+  ],
   "scripts": {
     "test": "test"
   },
