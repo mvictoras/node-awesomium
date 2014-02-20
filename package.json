@@ -1,23 +1,11 @@
 {
   "name": "node-awesomium",
   "version": "0.0.1",
-  "author": "Victor Mateevitsi <mvictoras@gmail.com>",
-  "description": "Awesomium wrapper for nodejs.",
+  "description": "Awesomium wrapper",
   "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mvictoras/node-awesomium.git"
+  "scripts": {
+    "test": "test"
   },
-  "keywords": [
-    "awesomium"
-  ],
-  "dependencies" : {
-  },
-  "devDependencies": {
-  },
-  "scripts" : { "test" : "make test" },
-  "license": "GPL",
-  "engine": {
-    "node": ">=0.6"
-  }
+  "author": "Victor Mateevitsi",
+  "license": "ISC"
 }
