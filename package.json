@@ -1,6 +1,6 @@
 {
   "name": "awesomium",
-  "version": "0.1",
+  "version": "0.0.1",
   "author": "Victor Mateevitsi <mvictoras@gmail.com>",
   "description": "Awesomium wrapper for nodejs.",
   "main": "./index",
