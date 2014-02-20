@@ -1,6 +1,6 @@
 #define BUILDING_NODE_EXTENSION
 #include <node.h>
-#include "myobject.h"
+#include "awesomium.h"
 
 using namespace v8;
 
