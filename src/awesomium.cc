@@ -46,6 +46,8 @@ void WebBrowser::Init(Handle<Object> exports) {
     // Prototype
     tpl->PrototypeTemplate()->Set(String::NewSymbol("plusOne"),
         FunctionTemplate::New(PlusOne)->GetFunction());
+    tpl->PrototypeTemplate()->Set(String::NewSymbol("getFrame"),
+        FunctionTemplate::New(getFrame)->GetFunction());
     constructor = Persistent<Function>::New(tpl->GetFunction());
     exports->Set(String::NewSymbol("WebBrowser"), constructor);
 }
