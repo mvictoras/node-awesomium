@@ -95,7 +95,7 @@ Handle<v8::Value> WebBrowser::getFrame(const Arguments& args) {
     } else {
     }
 
-    return scope.Close(String::New(""));
+    return scope.Close(String::New("VICTOR"));
 }
 
 void WebBrowser::resize(int width, int height) {
