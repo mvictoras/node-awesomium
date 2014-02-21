@@ -73,7 +73,8 @@ Handle<Value> WebBrowser::New(const Arguments& args) {
     if (args.IsConstructCall()) {
         // Invoked as constructor: `new WebBrowser(...)`
         String::Utf8Value url(args[0]->ToString());
-        int width = args[1]->Int32Value();
+        String::Utf8Value sWidth(args[1]->ToString());
+        int width = atoi(std::string(*sWidth).c_str());
         //int height = (int) args[2]->Int32Value();
         //int width = 1366;
         int height = 390;
