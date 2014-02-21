@@ -30,7 +30,7 @@ const char WebBrowser::encoding_table[] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H
 const int WebBrowser::mod_table[] = {0, 2, 1};
 
 
-WebBrowser::WebBrowser(std::string url, size_t width, size_t height) : 
+WebBrowser::WebBrowser(std::string url, int width, int height) : 
     mUrl(url), mWidth(width), mHeight(height) {
 
         WebConfig conf;
@@ -74,11 +74,11 @@ Handle<Value> WebBrowser::New(const Arguments& args) {
     if (args.IsConstructCall()) {
         // Invoked as constructor: `new WebBrowser(...)`
         String::Utf8Value url(args[0]->ToString());
-        //size_t width = args[1]->Uint32Value();
-        //size_t height = args[2]->Uint32Value();
+        int width = args[1]->IntegerValue();
+        int height = args[2]->IntegerValue();
 
-        //WebBrowser* obj = new WebBrowser(std::string(*url), width, height);
-        WebBrowser* obj = new WebBrowser(std::string(*url), 1366, 390);
+        WebBrowser* obj = new WebBrowser(std::string(*url), width, height);
+        //WebBrowser* obj = new WebBrowser(std::string(*url), 1366, 390);
         obj->Wrap(args.This());
         return args.This();
     } else {

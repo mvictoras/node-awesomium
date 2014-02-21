@@ -17,7 +17,7 @@ public:
     static void Init(v8::Handle<v8::Object> exports);
 
 private:
-    explicit WebBrowser(std::string mUrl, size_t mWidth, size_t mHeight);
+    explicit WebBrowser(std::string mUrl, int mWidth, int mHeight);
     ~WebBrowser();
 
     static v8::Handle<v8::Value> New(const v8::Arguments& args);
@@ -39,8 +39,8 @@ private:
   
   
     std::string mUrl;
-    size_t mWidth;
-    size_t mHeight;
+    int mWidth;
+    int mHeight;
     
     WebView* mView;
     WebCore* mWebCore;
