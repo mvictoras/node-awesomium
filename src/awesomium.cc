@@ -58,7 +58,7 @@ void WebBrowser::Init(Handle<Object> exports) {
     // Prepare constructor template
     Local<FunctionTemplate> tpl = FunctionTemplate::New(New);
     tpl->SetClassName(String::NewSymbol("WebBrowser"));
-    tpl->InstanceTemplate()->SetInternalFieldCount(1);
+    tpl->InstanceTemplate()->SetInternalFieldCount(3);
     // Prototype
     tpl->PrototypeTemplate()->Set(String::NewSymbol("plusOne"),
         FunctionTemplate::New(PlusOne)->GetFunction());
@@ -73,9 +73,10 @@ Handle<Value> WebBrowser::New(const Arguments& args) {
     if (args.IsConstructCall()) {
         // Invoked as constructor: `new WebBrowser(...)`
         String::Utf8Value url(args[0]->ToString());
-        String::Utf8Value sWidth(args[1]->ToString());
-        int width = atoi(std::string(*sWidth).c_str());
+        //String::Utf8Value sWidth(args[1]->ToString());
+        //int width = atoi(std::string(*sWidth).c_str());
         //int height = (int) args[2]->Int32Value();
+        int width = (int) args[1]->Int32Value();
         //int width = 1366;
         int height = 390;
 
