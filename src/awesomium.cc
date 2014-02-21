@@ -82,10 +82,10 @@ Handle<Value> WebBrowser::New(const Arguments& args) {
         return args.This();
     } else {
         // Invoked as plain function `WebBrowser(...)`, turn into construct call.
-        HandleScope scope;
-        const int argc = 3;
-        Local<Value> argv[argc] = { args[0], argv[1], argv[2] };
-        return scope.Close(constructor->NewInstance(argc, argv));
+        //HandleScope scope;
+        //const int argc = 3;
+        //Local<Value> argv[argc] = { args[0], argv[1], argv[2] };
+        //return scope.Close(constructor->NewInstance(argc, argv));
     }
 }
 
