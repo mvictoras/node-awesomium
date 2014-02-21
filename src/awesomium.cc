@@ -5,6 +5,16 @@
 #include <jpeglib.h>
 #include <stdlib.h>
 
+#if defined(__WIN32__) || defined(_WIN32)
+    #include <windows.h>
+    #define sleep(x) Sleep(x)
+#elif defined(__APPLE__) || defined(__linux__)
+    #include <unistd.h>
+    #define sleep(x) usleep(x * 1000)
+#endif
+
+#define SLEEP_MS 50
+
 using namespace v8;
 
 Persistent<Function> WebBrowser::constructor;
@@ -33,6 +43,13 @@ WebBrowser::WebBrowser(std::string url, size_t width, size_t height) :
         // XXXXX
         WebURL webUrl(WSLit(url.c_str()));
         mView->LoadURL(webUrl);
+    
+        while(mView->IsLoading()) {
+            sleep(SLEEP_MS);
+                               
+            // required
+            mWebCore->Update();
+        }
 }
 
 WebBrowser::~WebBrowser() {
