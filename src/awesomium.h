@@ -21,6 +21,7 @@ private:
     ~WebBrowser();
 
     static v8::Handle<v8::Value> New(const v8::Arguments& args);
+    static v8::Handle<v8::Value> NewInstance(const v8::Arguments& args);
     static v8::Handle<v8::Value> PlusOne(const v8::Arguments& args);
     //static void load(const v8::Arguments& args);
     void resize(int width, int height);
