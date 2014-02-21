@@ -78,7 +78,7 @@ Handle<Value> WebBrowser::New(const Arguments& args) {
         //size_t height = args[2]->Uint32Value();
 
         //WebBrowser* obj = new WebBrowser(std::string(*url), width, height);
-        WebBrowser* obj = new WebBrowser("http://www.google.com", 1366, 390);
+        WebBrowser* obj = new WebBrowser(std::string(*url), 1366, 390);
         obj->Wrap(args.This());
         return args.This();
     } else {
