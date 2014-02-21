@@ -4,10 +4,10 @@
 		"sources": [ "src/awesomium.cc", "src/webBrowser.cc" ],
 		'default_configuration': 'Release',
         'conditions': [
-            ['OS=="win"', 
+            ['OS=="linux"', 
                 {
-                    'ldlags': [
-                        '-lawesomium',
+                    'libraries': [
+                        '-lawesomium-1-7',
                     ],
                 },
             ],
