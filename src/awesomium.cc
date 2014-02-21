@@ -78,16 +78,16 @@ Handle<Value> WebBrowser::New(const Arguments& args) {
         int width = 1366;
         int height = 390;
 
-        WebBrowser* obj = new WebBrowser(std::string(*url), width, height);
-        //WebBrowser* obj = new WebBrowser(std::string(*url), 1366, 390);
+        //WebBrowser* obj = new WebBrowser(std::string(*url), width, height);
+        WebBrowser* obj = new WebBrowser(std::string(*url), 1366, 390);
         obj->Wrap(args.This());
         return args.This();
     } else {
         // Invoked as plain function `WebBrowser(...)`, turn into construct call.
-        //HandleScope scope;
-        //const int argc = 3;
-        //Local<Value> argv[argc] = { args[0], argv[1], argv[2] };
-        //return scope.Close(constructor->NewInstance(argc, argv));
+        HandleScope scope;
+        const int argc = 3;
+        Local<Value> argv[argc] = { args[0], argv[1], argv[2] };
+        return scope.Close(constructor->NewInstance(argc, argv));
     }
 }
 
