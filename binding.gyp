@@ -5,17 +5,17 @@
 		'default_configuration': 'Release',
 		'xcode_settings': {
 			'OTHER_CFLAGS': [
-				'<!@(pkg-config --cflags poppler-glib cairo)'
+				'<!@(pkg-config --cflags awesomium)'
 			],
 		},
 		'cflags': [
-			'<!@(pkg-config --cflags poppler-glib cairo)'
+			'<!@(pkg-config --cflags awesomium)'
 		],
 		'ldflags': [
-			'<!@(pkg-config --libs poppler-glib cairo)'
+			'<!@(pkg-config --libs awesomium)'
 		],
 		'libraries': [
-			'<!@(pkg-config --libs poppler-glib cairo)'
+			'<!@(pkg-config --libs awesomium)'
 		]
 	}]
 }
