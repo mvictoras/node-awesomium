@@ -5,7 +5,7 @@
 using namespace v8;
 
 void InitAll(Handle<Object> exports) {
-      MyObject::Init(exports);
+      WebBrowser::Init(exports);
 }
 
 NODE_MODULE(awesomium, InitAll)
