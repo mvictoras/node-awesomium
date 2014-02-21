@@ -46,7 +46,6 @@ WebBrowser::WebBrowser(std::string url, size_t width, size_t height) :
     
         while(mView->IsLoading()) {
             sleep(SLEEP_MS);
-                               
             // required
             mWebCore->Update();
         }
@@ -108,12 +107,11 @@ Handle<v8::Value> WebBrowser::getFrame(const Arguments& args) {
     BitmapSurface* surface = (BitmapSurface*)obj->mView->surface();
     
     if (surface != 0) {
-        return scope.Close(String::New("VICTOR2"));
         return scope.Close(String::New(obj->convertToJpeg(surface->buffer()).c_str()));
     } else {
     }
 
-    return scope.Close(String::New("VICTOR"));
+    return scope.Close(String::New(""));
 }
 
 void WebBrowser::resize(int width, int height) {
