@@ -108,7 +108,7 @@ Handle<v8::Value> WebBrowser::getFrame(const Arguments& args) {
     String::Utf8Value argId(args[0]->ToString());
     std::string id(*argId);
 
-    if(mViews.find(id) != mViews.end()) {
+    if(obj->mViews.find(id) != obj->mViews.end()) {
         BitmapSurface* surface = (BitmapSurface*)obj->mViews[id]->surface();
     
         if (surface != 0) {

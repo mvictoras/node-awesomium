@@ -46,8 +46,8 @@ private:
     
     //WebView* mView;
     typedef std::map<std::string, WebView*> WebViewType;
-    static WebViewType mViews;
-    //static std::map<std::string, WebView*> mViews;
+    WebViewType mViews;
+    //std::map<std::string, WebView*> mViews;
 
     WebCore* mWebCore;
 
