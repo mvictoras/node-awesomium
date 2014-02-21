@@ -8,6 +8,7 @@
                 {
                     'libraries': [
                         '-lawesomium-1-7',
+                        '-ljpeg',
                     ],
                 },
             ],
