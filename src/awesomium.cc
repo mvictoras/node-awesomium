@@ -70,31 +70,23 @@ void WebBrowser::Init(Handle<Object> exports) {
 
 Handle<Value> WebBrowser::New(const Arguments& args) {
 
-   
-    //if (args.IsConstructCall()) {
+    if (args.IsConstructCall()) {
         // Invoked as constructor: `new WebBrowser(...)`
         String::Utf8Value url(args[0]->ToString());
-        //String::Utf8Value sWidth(args[1]->ToString());
-        //int width = atoi(std::string(*sWidth).c_str());
-        //int height = (int) args[2]->Int32Value();
-        //const uint32_t width = args[1]->Uint32Value();
         int width = args[1]->Int32Value();
-        //int width = 1366;
-        int height = 390;
+        int height = args[2]->Int32Value();
 
-        //WebBrowser* obj = new WebBrowser(std::string(*url), width, height);
-        WebBrowser* obj = new WebBrowser(std::string(*url), width, 390);
+        WebBrowser* obj = new WebBrowser(std::string(*url), width, height);
         obj->Wrap(args.This());
         return args.This();
-    //} else {  
-    /*
-    //    // Invoked as plain function `WebBrowser(...)`, turn into construct call.
+    } else {  
+        // XXX   
+        // Invoked as plain function `WebBrowser(...)`, turn into construct call.
         HandleScope scope;
         const int argc = 3;
         Local<Value> argv[argc] = { args[0], argv[1], argv[2] };
         return scope.Close(constructor->NewInstance(argc, argv));
-    //} 
-    */
+    } 
 }
 
 Handle<Value> WebBrowser::PlusOne(const Arguments& args) {
