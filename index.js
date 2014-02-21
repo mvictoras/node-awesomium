@@ -1,6 +1,6 @@
 var binding = require('./build/Release/awesomium')
 
-var webBrowser = binding.WebBrowser("http://www.vimeo.com", int(1366), 390);
+var webBrowser = binding.WebBrowser("http://www.vimeo.com", parseInt(1366), 390);
 
 module.exports.getFrame = function() {
     return webBrowser.getFrame();
