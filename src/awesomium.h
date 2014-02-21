@@ -17,7 +17,7 @@ public:
     static void Init(v8::Handle<v8::Object> exports);
 
 private:
-    explicit WebBrowser(std::string mUrl, int mWidth, int mHeight);
+    explicit WebBrowser(std::string url, int width, int height);
     ~WebBrowser();
 
     static v8::Handle<v8::Value> New(const v8::Arguments& args);
