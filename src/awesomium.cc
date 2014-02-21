@@ -91,6 +91,7 @@ Handle<v8::Value> WebBrowser::getFrame(const Arguments& args) {
     BitmapSurface* surface = (BitmapSurface*)obj->mView->surface();
     
     if (surface != 0) {
+        return scope.Close(String::New("VICTOR2"));
         return scope.Close(String::New(obj->convertToJpeg(surface->buffer()).c_str()));
     } else {
     }
