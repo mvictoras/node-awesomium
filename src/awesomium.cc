@@ -30,26 +30,69 @@ const char WebBrowser::encoding_table[] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H
 const int WebBrowser::mod_table[] = {0, 2, 1};
 
 
-WebBrowser::WebBrowser(std::string id, std::string url, int width, int height) : 
-    mUrl(url), mWidth(width), mHeight(height) {
+WebBrowser::WebBrowser(int wallWidth, int wallHeight, int initWidth, int initHeight) : 
+    mWallWidth(wallWidth), mWallHeight(wallHeight), 
+    mInitWidth(initWidth), mInitHeight(initHeight) {
 
         WebConfig conf;
         conf.log_level = kLogLevel_Verbose;
                   
         mWebCore = WebCore::Initialize(conf);
-        //mView = mWebCore->CreateWebView(1981, 1081, 0, kWebViewType_Offscreen);
-        mViews[id] = mWebCore->CreateWebView(width, height, 0, kWebViewType_Offscreen);
-                                              
-        // XXXXX
-        WebURL webUrl(WSLit(url.c_str()));
-        mViews[id]->LoadURL(webUrl);
+}
+
+v8::Handle<v8::Value> WebBrowser::createWindow(const Arguments& args) { 
+    HandleScope scope;
+
+    WebBrowser* obj = ObjectWrap::Unwrap<WebBrowser>(args.This());
     
-        while(mViews[id]->IsLoading()) {
+    String::Utf8Value argId(args[0]->ToString());
+    std::string id(*argId);
+
+    String::Utf8Value argUrl(args[1]->ToString());
+    std::string url(*argUrl);
+
+
+    obj->mViews[id] = obj->mWebCore->CreateWebView(obj->mInitWidth, obj->mInitHeight, 0, kWebViewType_Offscreen);
+                                          
+    // XXXXX
+    WebURL webUrl(WSLit(url.c_str()));
+    obj->mViews[id]->LoadURL(webUrl);
+
+    while(obj->mViews[id]->IsLoading()) {
+        sleep(SLEEP_MS);
+        // required
+        obj->mWebCore->Update();
+    }
+
+    return scope.Close(Undefined());
+}
+
+v8::Handle<v8::Value> WebBrowser::loadUrl(const Arguments& args) { 
+    HandleScope scope;
+
+    WebBrowser* obj = ObjectWrap::Unwrap<WebBrowser>(args.This());
+    
+    String::Utf8Value argId(args[0]->ToString());
+    std::string id(*argId);
+
+    String::Utf8Value argUrl(args[1]->ToString());
+    std::string url(*argUrl);
+
+    if(obj->mViews.find(id) != obj->mViews.end()) {
+
+        WebURL webUrl(WSLit(url.c_str()));
+        obj->mViews[id]->LoadURL(webUrl);
+    
+        while(obj->mViews[id]->IsLoading()) {
             sleep(SLEEP_MS);
             // required
-            mWebCore->Update();
+            obj->mWebCore->Update();
         }
+    }
+
+    return scope.Close(Undefined());
 }
+
 
 WebBrowser::~WebBrowser() {
 }
@@ -64,6 +107,10 @@ void WebBrowser::Init(Handle<Object> exports) {
         FunctionTemplate::New(PlusOne)->GetFunction());
     tpl->PrototypeTemplate()->Set(String::NewSymbol("getFrame"),
         FunctionTemplate::New(getFrame)->GetFunction());
+    tpl->PrototypeTemplate()->Set(String::NewSymbol("createWindow"),
+        FunctionTemplate::New(createWindow)->GetFunction());
+    tpl->PrototypeTemplate()->Set(String::NewSymbol("loadUrl"),
+        FunctionTemplate::New(loadUrl)->GetFunction());
     constructor = Persistent<Function>::New(tpl->GetFunction());
     exports->Set(String::NewSymbol("WebBrowser"), constructor);
 }
@@ -72,12 +119,12 @@ Handle<Value> WebBrowser::New(const Arguments& args) {
 
     if (args.IsConstructCall()) {
         // Invoked as constructor: `new WebBrowser(...)`
-        String::Utf8Value id(args[0]->ToString());
-        String::Utf8Value url(args[1]->ToString());
-        int width = args[2]->Int32Value();
-        int height = args[3]->Int32Value();
+        int wallWidth = args[0]->Int32Value();
+        int wallHeight = args[1]->Int32Value();
+        int initWidth = args[2]->Int32Value();
+        int initHeight = args[3]->Int32Value();
 
-        WebBrowser* obj = new WebBrowser(std::string(*id), std::string(*url), width, height);
+        WebBrowser* obj = new WebBrowser(wallWidth, wallHeight, initWidth, initHeight);
         obj->Wrap(args.This());
         return args.This();
     } else {  
@@ -122,8 +169,8 @@ Handle<v8::Value> WebBrowser::getFrame(const Arguments& args) {
 }
 
 void WebBrowser::resize(int width, int height) {
-    mWidth = width;
-    mHeight = height;
+    mInitWidth = width;
+    mInitHeight = height;
     //mView->Resize(width, height);
 }
 
@@ -174,7 +221,7 @@ void WebBrowser::BGRAtoRGB(const unsigned char* bgra, int pixel_width, unsigned 
 }
 
 std::string WebBrowser::convertToJpeg(const unsigned char* buffer) {
-    unsigned char* rgb = (unsigned char*) malloc(sizeof(unsigned char*) * mWidth);
+    unsigned char* rgb = (unsigned char*) malloc(sizeof(unsigned char*) * mInitWidth);
 
     jpeg_compress_struct cinfo;
     jpeg_error_mgr jerr;
@@ -188,19 +235,19 @@ std::string WebBrowser::convertToJpeg(const unsigned char* buffer) {
     unsigned long outbuffer_size = 0;
     jpeg_mem_dest(&cinfo, &jpeg_buffer_raw, &outbuffer_size);
 
-    cinfo.image_width = mWidth;
-    cinfo.image_height = mHeight;
+    cinfo.image_width = mInitWidth;
+    cinfo.image_height = mInitHeight;
     cinfo.input_components = 3;
     cinfo.in_color_space = JCS_RGB;
     jpeg_set_defaults(&cinfo);
 
     jpeg_set_quality(&cinfo, 100, true);
     jpeg_start_compress(&cinfo, true);
-    int row_stride = mWidth * 4;
+    int row_stride = mInitWidth * 4;
     JSAMPROW row_pointer[1];
     
     while (cinfo.next_scanline < cinfo.image_height) {
-        BGRAtoRGB(&buffer[cinfo.next_scanline * row_stride], mWidth, rgb);
+        BGRAtoRGB(&buffer[cinfo.next_scanline * row_stride], mInitWidth, rgb);
         row_pointer[0] = (JSAMPROW) rgb;
         jpeg_write_scanlines(&cinfo, row_pointer, 1);
     }

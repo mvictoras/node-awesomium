@@ -18,7 +18,7 @@ public:
     static void Init(v8::Handle<v8::Object> exports);
 
 private:
-    explicit WebBrowser(std::string id, std::string url, int width, int height);
+    explicit WebBrowser(int wallWidth, int wallHeight, int initWidth, int initHeight);
     ~WebBrowser();
 
     static v8::Handle<v8::Value> New(const v8::Arguments& args);
@@ -31,7 +31,10 @@ private:
     static v8::Persistent<v8::Function> constructor;
 
     static v8::Handle<v8::Value> getFrame(const v8::Arguments& args);
+    static v8::Handle<v8::Value> createWindow(const v8::Arguments& args);
+    static v8::Handle<v8::Value> loadUrl(const v8::Arguments& args);
    
+
     char* base64_encode(const unsigned char *data,
                         size_t input_length,
                         size_t *output_length);
@@ -41,8 +44,11 @@ private:
   
   
     std::string mUrl;
-    int mWidth;
-    int mHeight;
+    int mWallWidth;
+    int mWallHeight;
+
+    int mInitWidth;
+    int mInitHeight;
     
     //WebView* mView;
     typedef std::map<std::string, WebView*> WebViewType;

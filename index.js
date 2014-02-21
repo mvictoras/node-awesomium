@@ -4,8 +4,16 @@ browsers = {}
 
 var webBrowser;
 
-module.exports.load = function(id, url, width, height) {
-    webBrowser = new binding.WebBrowser(id, url, width, height);
+module.exports.init = function(wallWidth, wallHeight, initWidth, initHeight) {
+    webBrowser = new binding.WebBrowser(wallWidth, wallHeight, initWidth, initHeight);
+}
+
+module.exports.createWindow = function(id, url) {
+    webBrowser.createWindow(id, url);
+}
+
+module.exports.loadUrl = function(id, url) {
+    webBrowser.loadUrl(id, url);
 }
 
 module.exports.getFrame = function(id) {
