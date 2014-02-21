@@ -55,11 +55,12 @@ Handle<Value> WebBrowser::New(const Arguments& args) {
 
     if (args.IsConstructCall()) {
         // Invoked as constructor: `new WebBrowser(...)`
-        String::Utf8Value url(args[0]->ToString());
-        size_t width = args[1]->Uint32Value();
-        size_t height = args[2]->Uint32Value();
+        //String::Utf8Value url(args[0]->ToString());
+        //size_t width = args[1]->Uint32Value();
+        //size_t height = args[2]->Uint32Value();
 
-        WebBrowser* obj = new WebBrowser(std::string(*url), width, height);
+        //WebBrowser* obj = new WebBrowser(std::string(*url), width, height);
+        WebBrowser* obj = new WebBrowser("http://www.google.com", 1366, 390);
         obj->Wrap(args.This());
         return args.This();
     } else {
