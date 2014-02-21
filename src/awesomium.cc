@@ -77,7 +77,7 @@ Handle<Value> WebBrowser::New(const Arguments& args) {
         int width = args[1]->IntegerValue();
         int height = args[2]->IntegerValue();
 
-        WebBrowser* obj = new WebBrowser(std::string(*url), width, height);
+        WebBrowser* obj = new WebBrowser(std::string(*url), width * 2, height * 2);
         //WebBrowser* obj = new WebBrowser(std::string(*url), 1366, 390);
         obj->Wrap(args.This());
         return args.This();
