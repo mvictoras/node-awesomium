@@ -58,7 +58,7 @@ void WebBrowser::Init(Handle<Object> exports) {
     // Prepare constructor template
     Local<FunctionTemplate> tpl = FunctionTemplate::New(New);
     tpl->SetClassName(String::NewSymbol("WebBrowser"));
-    tpl->InstanceTemplate()->SetInternalFieldCount(7);
+    tpl->InstanceTemplate()->SetInternalFieldCount(5);
     // Prototype
     tpl->PrototypeTemplate()->Set(String::NewSymbol("plusOne"),
         FunctionTemplate::New(PlusOne)->GetFunction());
