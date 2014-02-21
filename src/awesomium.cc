@@ -76,7 +76,7 @@ Handle<Value> WebBrowser::New(const Arguments& args) {
         //String::Utf8Value sWidth(args[1]->ToString());
         //int width = atoi(std::string(*sWidth).c_str());
         //int height = (int) args[2]->Int32Value();
-        //int width = (int) args[1]->Int32Value();
+        const uint32_t width = args[1]->Uint32Value();
         int width = 1366;
         int height = 390;
 
