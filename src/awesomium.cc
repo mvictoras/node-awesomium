@@ -30,7 +30,7 @@ const char WebBrowser::encoding_table[] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H
 const int WebBrowser::mod_table[] = {0, 2, 1};
 
 
-WebBrowser::WebBrowser(std::string url, int width, int height) : 
+WebBrowser::WebBrowser(std::string id, std::string url, int width, int height) : 
     mUrl(url), mWidth(width), mHeight(height) {
 
         WebConfig conf;
@@ -38,13 +38,13 @@ WebBrowser::WebBrowser(std::string url, int width, int height) :
                   
         mWebCore = WebCore::Initialize(conf);
         //mView = mWebCore->CreateWebView(1981, 1081, 0, kWebViewType_Offscreen);
-        mView = mWebCore->CreateWebView(width, height, 0, kWebViewType_Offscreen);
+        mViews[id] = mWebCore->CreateWebView(width, height, 0, kWebViewType_Offscreen);
                                               
         // XXXXX
         WebURL webUrl(WSLit(url.c_str()));
-        mView->LoadURL(webUrl);
+        mViews[id]->LoadURL(webUrl);
     
-        while(mView->IsLoading()) {
+        while(mViews[id]->IsLoading()) {
             sleep(SLEEP_MS);
             // required
             mWebCore->Update();
@@ -58,7 +58,7 @@ void WebBrowser::Init(Handle<Object> exports) {
     // Prepare constructor template
     Local<FunctionTemplate> tpl = FunctionTemplate::New(New);
     tpl->SetClassName(String::NewSymbol("WebBrowser"));
-    tpl->InstanceTemplate()->SetInternalFieldCount(3);
+    tpl->InstanceTemplate()->SetInternalFieldCount(4);
     // Prototype
     tpl->PrototypeTemplate()->Set(String::NewSymbol("plusOne"),
         FunctionTemplate::New(PlusOne)->GetFunction());
@@ -72,19 +72,20 @@ Handle<Value> WebBrowser::New(const Arguments& args) {
 
     if (args.IsConstructCall()) {
         // Invoked as constructor: `new WebBrowser(...)`
-        String::Utf8Value url(args[0]->ToString());
-        int width = args[1]->Int32Value();
-        int height = args[2]->Int32Value();
+        String::Utf8Value id(args[0]->ToString());
+        String::Utf8Value url(args[1]->ToString());
+        int width = args[2]->Int32Value();
+        int height = args[3]->Int32Value();
 
-        WebBrowser* obj = new WebBrowser(std::string(*url), width, height);
+        WebBrowser* obj = new WebBrowser(std::string(*id), std::string(*url), width, height);
         obj->Wrap(args.This());
         return args.This();
     } else {  
         // XXX   
         // Invoked as plain function `WebBrowser(...)`, turn into construct call.
         HandleScope scope;
-        const int argc = 3;
-        Local<Value> argv[argc] = { args[0], argv[1], argv[2] };
+        const int argc = 4;
+        Local<Value> argv[argc] = { args[0], argv[1], argv[2], argv[3] };
         return scope.Close(constructor->NewInstance(argc, argv));
     } 
 }
@@ -104,26 +105,32 @@ Handle<v8::Value> WebBrowser::getFrame(const Arguments& args) {
     WebBrowser* obj = ObjectWrap::Unwrap<WebBrowser>(args.This());
     obj->mWebCore->Update();
     
-    BitmapSurface* surface = (BitmapSurface*)obj->mView->surface();
-    
-    if (surface != 0) {
-        return scope.Close(String::New(obj->convertToJpeg(surface->buffer()).c_str()));
-    } else {
-    }
+    String::Utf8Value argId(args[0]->ToString());
+    std::string id(*argId);
 
+    if(mViews.find(id) != mViews.end()) {
+        BitmapSurface* surface = (BitmapSurface*)obj->mViews[id]->surface();
+    
+        if (surface != 0) {
+            return scope.Close(String::New(obj->convertToJpeg(surface->buffer()).c_str()));
+        } else {
+        }
+    }
+    
+    // XXX - Add a loading screen?
     return scope.Close(String::New(""));
 }
 
 void WebBrowser::resize(int width, int height) {
     mWidth = width;
     mHeight = height;
-    mView->Resize(width, height);
+    //mView->Resize(width, height);
 }
 
 void WebBrowser::click(int x, int y) {
-    mView->InjectMouseMove(x, y);
-    mView->InjectMouseDown(kMouseButton_Left);
-    mView->InjectMouseUp(kMouseButton_Left);
+    //mView->InjectMouseMove(x, y);
+    //mView->InjectMouseDown(kMouseButton_Left);
+    //mView->InjectMouseUp(kMouseButton_Left);
 }
 
 char* WebBrowser::base64_encode(const unsigned char *data,

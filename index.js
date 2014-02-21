@@ -2,12 +2,14 @@ var binding = require('./build/Release/awesomium')
 
 browsers = {}
 
-module.exports.load = function(url, width, height) {
-    return new binding.WebBrowser(url, width, height);
+var webBrowser;
+
+module.exports.load = function(id, url, width, height) {
+    webBrowser = new binding.WebBrowser(id, url, width, height);
 }
 
-module.exports.getFrame = function() {
-    return webBrowser.getFrame();
+module.exports.getFrame = function(id) {
+    return webBrowser.getFrame(id);
 }
 
 module.exports.click = function(x, y) {

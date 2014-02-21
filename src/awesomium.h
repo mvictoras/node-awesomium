@@ -7,6 +7,7 @@
 #include <Awesomium/BitmapSurface.h>
 #include <Awesomium/STLHelpers.h>
 
+#include <map>
 #include <string>
 
 using namespace Awesomium;
@@ -17,7 +18,7 @@ public:
     static void Init(v8::Handle<v8::Object> exports);
 
 private:
-    explicit WebBrowser(std::string url, int width, int height);
+    explicit WebBrowser(std::string id, std::string url, int width, int height);
     ~WebBrowser();
 
     static v8::Handle<v8::Value> New(const v8::Arguments& args);
@@ -43,7 +44,11 @@ private:
     int mWidth;
     int mHeight;
     
-    WebView* mView;
+    //WebView* mView;
+    typedef std::map<std::string, WebView*> WebViewType;
+    static WebViewType mViews;
+    //static std::map<std::string, WebView*> mViews;
+
     WebCore* mWebCore;
 
     static const char encoding_table[];
