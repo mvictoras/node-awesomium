@@ -127,6 +127,8 @@ void WebBrowser::Init(Handle<Object> exports) {
         FunctionTemplate::New(getFrame)->GetFunction());
     tpl->PrototypeTemplate()->Set(String::NewSymbol("createWindow"),
         FunctionTemplate::New(createWindow)->GetFunction());
+    tpl->PrototypeTemplate()->Set(String::NewSymbol("removeWindow"),
+        FunctionTemplate::New(removeWindow)->GetFunction());
     tpl->PrototypeTemplate()->Set(String::NewSymbol("loadUrl"),
         FunctionTemplate::New(loadUrl)->GetFunction());
     constructor = Persistent<Function>::New(tpl->GetFunction());
