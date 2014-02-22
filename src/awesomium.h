@@ -32,6 +32,7 @@ private:
 
     static v8::Handle<v8::Value> getFrame(const v8::Arguments& args);
     static v8::Handle<v8::Value> createWindow(const v8::Arguments& args);
+    static v8::Handle<v8::Value> deleteWindow(const v8::Arguments& args);
     static v8::Handle<v8::Value> loadUrl(const v8::Arguments& args);
    
 

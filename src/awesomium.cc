@@ -67,6 +67,24 @@ v8::Handle<v8::Value> WebBrowser::createWindow(const Arguments& args) {
     return scope.Close(Undefined());
 }
 
+v8::Handle<v8::Value> WebBrowser::deleteWindow(const Arguments& args) { 
+    HandleScope scope;
+
+    WebBrowser* obj = ObjectWrap::Unwrap<WebBrowser>(args.This());
+    
+    String::Utf8Value argId(args[0]->ToString());
+    std::string id(*argId);
+
+    WebViewType::iterator it = obj->mViews.find(id);
+    if(it!= obj->mViews.end()) {
+         obj->mViews[id]->Destroy();
+         obj->mViews.erase(it);
+    }
+
+    return scope.Close(Undefined());
+}
+
+
 v8::Handle<v8::Value> WebBrowser::loadUrl(const Arguments& args) { 
     HandleScope scope;
 
