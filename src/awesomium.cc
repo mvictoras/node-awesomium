@@ -67,7 +67,7 @@ v8::Handle<v8::Value> WebBrowser::createWindow(const Arguments& args) {
     return scope.Close(Undefined());
 }
 
-v8::Handle<v8::Value> WebBrowser::deleteWindow(const Arguments& args) { 
+v8::Handle<v8::Value> WebBrowser::removeWindow(const Arguments& args) { 
     HandleScope scope;
 
     WebBrowser* obj = ObjectWrap::Unwrap<WebBrowser>(args.This());

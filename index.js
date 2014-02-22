@@ -12,6 +12,10 @@ module.exports.createWindow = function(id, url) {
     webBrowser.createWindow(id, url);
 }
 
+module.exports.removeWindow = function(id) {
+    webBrowser.removeWindow(id);
+}
+
 module.exports.loadUrl = function(id, url) {
     webBrowser.loadUrl(id, url);
 }
