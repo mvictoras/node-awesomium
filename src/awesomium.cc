@@ -222,7 +222,7 @@ Handle<Value> WebBrowser::resize(const Arguments &args) {
     int height = args[2]->Int32Value();
 
     if(width > obj->mWallWidth) return scope.Close(Undefined());
-    if(height > obj.mWallHeight) return scope.Close(Undefined());
+    if(height > obj->mWallHeight) return scope.Close(Undefined());
 
     if(obj->mViews.find(id) != obj->mViews.end()) {
         obj->mViewWidth[id] = width;
