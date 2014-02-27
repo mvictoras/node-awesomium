@@ -215,12 +215,14 @@ Handle<Value> WebBrowser::resize(const Arguments &args) {
 
     WebBrowser* obj = ObjectWrap::Unwrap<WebBrowser>(args.This());
 
-    //obj->mViews[id]->Resize(100, 100);
     String::Utf8Value argId(args[0]->ToString());
     std::string id(*argId);
 
     int width = args[1]->Int32Value();
     int height = args[2]->Int32Value();
+
+    if(width > obj->mWallWidth) return scope.Close(Undefined());
+    if(height > obj.mWallHeight) return scope.Close(Undefined());
 
     if(obj->mViews.find(id) != obj->mViews.end()) {
         obj->mViewWidth[id] = width;
