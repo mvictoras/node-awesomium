@@ -52,7 +52,8 @@ Handle<Value> WebBrowser::createWindow(const Arguments& args) {
     std::string url(*argUrl);
 
 
-    obj->mViews[id] = obj->mWebCore->CreateWebView(obj->mInitWidth, obj->mInitHeight, 0, kWebViewType_Offscreen);
+    obj->mViews[id] = obj->mWebCore->CreateWebView(obj->mWallWidth, obj->mWallHeight, 0, kWebViewType_Offscreen);
+    obj->mViews[id]->Resize(obj->mInitWidth, obj->mInitHeight);
 
     obj->mViewWidth[id] = obj->mInitWidth;
     obj->mViewHeight[id] = obj->mInitHeight;
