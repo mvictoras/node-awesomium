@@ -24,7 +24,8 @@ module.exports.getFrame = function(id) {
     return webBrowser.getFrame(id);
 }
 
-module.exports.click = function(x, y) {
+module.exports.click = function(id, x, y) {
+    webBrowser.click(id, x, y);
 }
 
 module.exports.hover = function(x, y) {
