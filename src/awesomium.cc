@@ -214,7 +214,8 @@ Handle<Value> WebBrowser::resize(const Arguments &args) {
     HandleScope scope;
 
     WebBrowser* obj = ObjectWrap::Unwrap<WebBrowser>(args.This());
-    
+
+    obj->mViews[id]->Resize(100, 100);
     String::Utf8Value argId(args[0]->ToString());
     std::string id(*argId);
 
