@@ -24,8 +24,8 @@ module.exports.getFrame = function(id) {
     return webBrowser.getFrame(id);
 }
 
-module.exports.keypress = function(id, key) {
-    webBrowser.keypress(id, key);
+module.exports.keyPress = function(id, key) {
+    webBrowser.keyPress(id, key);
 }
 
 module.exports.click = function(id, x, y) {
