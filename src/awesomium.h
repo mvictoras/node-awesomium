@@ -34,6 +34,7 @@ private:
     static v8::Handle<v8::Value> loadUrl(const v8::Arguments& args);
     static v8::Handle<v8::Value> resize(const v8::Arguments& args);
     static v8::Handle<v8::Value> click(const v8::Arguments& args);
+    static v8::Handle<v8::Value> keyPress(const v8::Arguments& args);
 
     char* base64_encode(const unsigned char *data,
                         size_t input_length,

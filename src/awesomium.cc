@@ -1,6 +1,7 @@
 #define BUILDING_NODE_EXTENSION
 #include <node.h>
 #include "awesomium.h"
+#include "Awesomium/WebKeyboardEvent.h"
 
 #include <jpeglib.h>
 #include <stdlib.h>
@@ -155,6 +156,8 @@ void WebBrowser::Init(Handle<Object> exports) {
         FunctionTemplate::New(resize)->GetFunction());
     tpl->PrototypeTemplate()->Set(String::NewSymbol("click"),
         FunctionTemplate::New(click)->GetFunction());
+    tpl->PrototypeTemplate()->Set(String::NewSymbol("keyPress"),
+        FunctionTemplate::New(keyPress)->GetFunction());
     constructor = Persistent<Function>::New(tpl->GetFunction());
     exports->Set(String::NewSymbol("WebBrowser"), constructor);
 }
@@ -255,6 +258,25 @@ Handle<Value> WebBrowser::click(const Arguments &args) {
         obj->mViews[id]->InjectMouseMove(x, y);
         obj->mViews[id]->InjectMouseDown(kMouseButton_Left);
         obj->mViews[id]->InjectMouseUp(kMouseButton_Left);
+    }
+    return scope.Close(Undefined());
+}
+
+Handle<Value> WebBrowser::keyPress(const Arguments &args) {
+    HandleScope scope;
+
+    WebBrowser* obj = ObjectWrap::Unwrap<WebBrowser>(args.This());
+
+    String::Utf8Value argId(args[0]->ToString());
+    std::string id(*argId);
+
+    int key = args[1]->Int32Value();
+
+    if(obj->mViews.find(id) != obj->mViews.end()) {
+        WebKeyboardEvent keyEvent;
+        keyEvent.type = WebKeyboardEvent::kTypeChar;
+        keyEvent.text[0] =  key;
+        obj->mViews[id]->InjectKeyboardEvent(keyEvent);
     }
     return scope.Close(Undefined());
 }
