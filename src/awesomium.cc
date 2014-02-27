@@ -40,7 +40,7 @@ WebBrowser::WebBrowser(int wallWidth, int wallHeight, int initWidth, int initHei
         mWebCore = WebCore::Initialize(conf);
 }
 
-v8::Handle<v8::Value> WebBrowser::createWindow(const Arguments& args) { 
+Handle<Value> WebBrowser::createWindow(const Arguments& args) { 
     HandleScope scope;
 
     WebBrowser* obj = ObjectWrap::Unwrap<WebBrowser>(args.This());
@@ -53,6 +53,9 @@ v8::Handle<v8::Value> WebBrowser::createWindow(const Arguments& args) {
 
 
     obj->mViews[id] = obj->mWebCore->CreateWebView(obj->mInitWidth, obj->mInitHeight, 0, kWebViewType_Offscreen);
+
+    obj->mViewWidth[id] = obj->mInitWidth;
+    obj->mViewHeight[id] = obj->mInitHeight;
                                           
     // XXXXX
     WebURL webUrl(WSLit(url.c_str()));
@@ -67,7 +70,7 @@ v8::Handle<v8::Value> WebBrowser::createWindow(const Arguments& args) {
     return scope.Close(Undefined());
 }
 
-v8::Handle<v8::Value> WebBrowser::removeWindow(const Arguments& args) { 
+Handle<Value> WebBrowser::removeWindow(const Arguments& args) { 
     HandleScope scope;
 
     WebBrowser* obj = ObjectWrap::Unwrap<WebBrowser>(args.This());
@@ -75,17 +78,33 @@ v8::Handle<v8::Value> WebBrowser::removeWindow(const Arguments& args) {
     String::Utf8Value argId(args[0]->ToString());
     std::string id(*argId);
 
-    WebViewType::iterator it = obj->mViews.find(id);
-    if(it!= obj->mViews.end()) {
-         obj->mViews[id]->Destroy();
-         obj->mViews.erase(it);
+    {
+        WebViewType::iterator it = obj->mViews.find(id);
+        if(it!= obj->mViews.end()) {
+             obj->mViews[id]->Destroy();
+             obj->mViews.erase(it);
+        }
+    }
+    
+    {
+        StringToInt::iterator it = obj->mViewWidth.find(id);
+        if(it!= obj->mViewWidth.end()) {
+             obj->mViewWidth.erase(it);
+        }
+    }
+
+    {
+        StringToInt::iterator it = obj->mViewHeight.find(id);
+        if(it!= obj->mViewHeight.end()) {
+             obj->mViewHeight.erase(it);
+        }
     }
 
     return scope.Close(Undefined());
 }
 
 
-v8::Handle<v8::Value> WebBrowser::loadUrl(const Arguments& args) { 
+Handle<Value> WebBrowser::loadUrl(const Arguments& args) { 
     HandleScope scope;
 
     WebBrowser* obj = ObjectWrap::Unwrap<WebBrowser>(args.This());
@@ -131,6 +150,8 @@ void WebBrowser::Init(Handle<Object> exports) {
         FunctionTemplate::New(removeWindow)->GetFunction());
     tpl->PrototypeTemplate()->Set(String::NewSymbol("loadUrl"),
         FunctionTemplate::New(loadUrl)->GetFunction());
+    tpl->PrototypeTemplate()->Set(String::NewSymbol("resize"),
+        FunctionTemplate::New(resize)->GetFunction());
     constructor = Persistent<Function>::New(tpl->GetFunction());
     exports->Set(String::NewSymbol("WebBrowser"), constructor);
 }
@@ -166,7 +187,7 @@ Handle<Value> WebBrowser::PlusOne(const Arguments& args) {
     return scope.Close(Number::New(10));
 }    
 
-Handle<v8::Value> WebBrowser::getFrame(const Arguments& args) {
+Handle<Value> WebBrowser::getFrame(const Arguments& args) {
     HandleScope scope;
 
     WebBrowser* obj = ObjectWrap::Unwrap<WebBrowser>(args.This());
@@ -179,7 +200,7 @@ Handle<v8::Value> WebBrowser::getFrame(const Arguments& args) {
         BitmapSurface* surface = (BitmapSurface*)obj->mViews[id]->surface();
     
         if (surface != 0) {
-            return scope.Close(String::New(obj->convertToJpeg(surface->buffer()).c_str()));
+            return scope.Close(String::New(obj->convertToJpeg(surface->buffer(), obj->mViewWidth[id], obj->mViewHeight[id]).c_str()));
         } else {
         }
     }
@@ -188,10 +209,24 @@ Handle<v8::Value> WebBrowser::getFrame(const Arguments& args) {
     return scope.Close(String::New(""));
 }
 
-void WebBrowser::resize(int width, int height) {
-    mInitWidth = width;
-    mInitHeight = height;
-    //mView->Resize(width, height);
+Handle<Value> WebBrowser::resize(const Arguments &args) {
+    HandleScope scope;
+
+    WebBrowser* obj = ObjectWrap::Unwrap<WebBrowser>(args.This());
+    
+    String::Utf8Value argId(args[0]->ToString());
+    std::string id(*argId);
+
+    int width = args[1]->Int32Value();
+    int height = args[2]->Int32Value();
+
+    if(obj->mViews.find(id) != obj->mViews.end()) {
+        obj->mViewWidth[id] = width;
+        obj->mViewHeight[id] = height;
+        obj->mViews[id]->Resize(width, height);
+    }
+    return scope.Close(Undefined());
+
 }
 
 void WebBrowser::click(int x, int y) {
@@ -240,8 +275,8 @@ void WebBrowser::BGRAtoRGB(const unsigned char* bgra, int pixel_width, unsigned 
     }
 }
 
-std::string WebBrowser::convertToJpeg(const unsigned char* buffer) {
-    unsigned char* rgb = (unsigned char*) malloc(sizeof(unsigned char*) * mInitWidth);
+std::string WebBrowser::convertToJpeg(const unsigned char* buffer, int width, int height) {
+    unsigned char* rgb = (unsigned char*) malloc(sizeof(unsigned char*) * width);
 
     jpeg_compress_struct cinfo;
     jpeg_error_mgr jerr;
@@ -255,19 +290,19 @@ std::string WebBrowser::convertToJpeg(const unsigned char* buffer) {
     unsigned long outbuffer_size = 0;
     jpeg_mem_dest(&cinfo, &jpeg_buffer_raw, &outbuffer_size);
 
-    cinfo.image_width = mInitWidth;
-    cinfo.image_height = mInitHeight;
+    cinfo.image_width = width;
+    cinfo.image_height = height;
     cinfo.input_components = 3;
     cinfo.in_color_space = JCS_RGB;
     jpeg_set_defaults(&cinfo);
 
     jpeg_set_quality(&cinfo, 100, true);
     jpeg_start_compress(&cinfo, true);
-    int row_stride = mInitWidth * 4;
+    int row_stride = width * 4;
     JSAMPROW row_pointer[1];
     
     while (cinfo.next_scanline < cinfo.image_height) {
-        BGRAtoRGB(&buffer[cinfo.next_scanline * row_stride], mInitWidth, rgb);
+        BGRAtoRGB(&buffer[cinfo.next_scanline * row_stride], width, rgb);
         row_pointer[0] = (JSAMPROW) rgb;
         jpeg_write_scanlines(&cinfo, row_pointer, 1);
     }

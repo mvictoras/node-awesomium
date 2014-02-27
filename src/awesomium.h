@@ -25,7 +25,6 @@ private:
     static v8::Handle<v8::Value> NewInstance(const v8::Arguments& args);
     static v8::Handle<v8::Value> PlusOne(const v8::Arguments& args);
     //static void load(const v8::Arguments& args);
-    void resize(int width, int height);
     void click(int x, int y);
    
     static v8::Persistent<v8::Function> constructor;
@@ -34,27 +33,25 @@ private:
     static v8::Handle<v8::Value> createWindow(const v8::Arguments& args);
     static v8::Handle<v8::Value> removeWindow(const v8::Arguments& args);
     static v8::Handle<v8::Value> loadUrl(const v8::Arguments& args);
-   
+    static v8::Handle<v8::Value> resize(const v8::Arguments& args);
 
     char* base64_encode(const unsigned char *data,
                         size_t input_length,
                         size_t *output_length);
     
     void BGRAtoRGB(const unsigned char* bgra, int pixel_width, unsigned char* rgb);
-    std::string convertToJpeg(const unsigned char* buffer);
+    std::string convertToJpeg(const unsigned char* buffer, int width, int height);
   
   
     std::string mUrl;
-    int mWallWidth;
-    int mWallHeight;
+    int mWallWidth, mWallHeight, mInitWidth, mInitHeight;
 
-    int mInitWidth;
-    int mInitHeight;
+    typedef std::map<std::string, int> StringToInt;
+    StringToInt mViewWidth;
+    StringToInt mViewHeight;
     
-    //WebView* mView;
     typedef std::map<std::string, WebView*> WebViewType;
     WebViewType mViews;
-    //std::map<std::string, WebView*> mViews;
 
     WebCore* mWebCore;
 

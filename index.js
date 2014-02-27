@@ -30,5 +30,6 @@ module.exports.click = function(x, y) {
 module.exports.hover = function(x, y) {
 }
 
-module.exports.resize = function(w, h) {
+module.exports.resize = function(id, w, h) {
+    webBrowser.resize(id, w, h);
 }
