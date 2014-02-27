@@ -153,6 +153,8 @@ void WebBrowser::Init(Handle<Object> exports) {
         FunctionTemplate::New(loadUrl)->GetFunction());
     tpl->PrototypeTemplate()->Set(String::NewSymbol("resize"),
         FunctionTemplate::New(resize)->GetFunction());
+    tpl->PrototypeTemplate()->Set(String::NewSymbol("click"),
+        FunctionTemplate::New(click)->GetFunction());
     constructor = Persistent<Function>::New(tpl->GetFunction());
     exports->Set(String::NewSymbol("WebBrowser"), constructor);
 }
@@ -233,10 +235,24 @@ Handle<Value> WebBrowser::resize(const Arguments &args) {
 
 }
 
-void WebBrowser::click(int x, int y) {
-    //mView->InjectMouseMove(x, y);
-    //mView->InjectMouseDown(kMouseButton_Left);
-    //mView->InjectMouseUp(kMouseButton_Left);
+Handle<Value> WebBrowser::click(const Arguments &args) {
+    HandleScope scope;
+
+    WebBrowser* obj = ObjectWrap::Unwrap<WebBrowser>(args.This());
+
+    String::Utf8Value argId(args[0]->ToString());
+    std::string id(*argId);
+
+    int x = args[1]->Int32Value();
+    int y = args[2]->Int32Value();
+
+
+    if(obj->mViews.find(id) != obj->mViews.end()) {
+        obj->mViews[id]->InjectMouseMove(x, y);
+        obj->mViews[id]->InjectMouseDown(kMouseButton_Left);
+        obj->mViews[id]->InjectMouseUp(kMouseButton_Left);
+    }
+    return scope.Close(Undefined());
 }
 
 char* WebBrowser::base64_encode(const unsigned char *data,
