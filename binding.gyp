@@ -16,6 +16,7 @@
                 {
                     'ldflags': [
                         '-framework Awesomium',
+                        '-lawesomium',
                     ],
                 },
             ],
