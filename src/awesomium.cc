@@ -215,7 +215,7 @@ Handle<Value> WebBrowser::resize(const Arguments &args) {
 
     WebBrowser* obj = ObjectWrap::Unwrap<WebBrowser>(args.This());
 
-    obj->mViews[id]->Resize(100, 100);
+    //obj->mViews[id]->Resize(100, 100);
     String::Utf8Value argId(args[0]->ToString());
     std::string id(*argId);
 
@@ -226,6 +226,11 @@ Handle<Value> WebBrowser::resize(const Arguments &args) {
         obj->mViewWidth[id] = width;
         obj->mViewHeight[id] = height;
         obj->mViews[id]->Resize(width, height);
+        while(obj->mViews[id]->IsLoading()) {
+                     sleep(SLEEP_MS);
+                              // required
+                                       obj->mWebCore->Update();
+                                            }
     }
     return scope.Close(Undefined());
 
