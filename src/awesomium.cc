@@ -53,7 +53,7 @@ Handle<Value> WebBrowser::createWindow(const Arguments& args) {
 
 
     obj->mViews[id] = obj->mWebCore->CreateWebView(obj->mWallWidth, obj->mWallHeight, 0, kWebViewType_Offscreen);
-    obj->mViews[id]->Resize(obj->mInitWidth, obj->mInitHeight);
+    //obj->mViews[id]->Resize(obj->mInitWidth, obj->mInitHeight);
 
     obj->mViewWidth[id] = obj->mInitWidth;
     obj->mViewHeight[id] = obj->mInitHeight;
@@ -226,11 +226,6 @@ Handle<Value> WebBrowser::resize(const Arguments &args) {
         obj->mViewWidth[id] = width;
         obj->mViewHeight[id] = height;
         obj->mViews[id]->Resize(width, height);
-        while(obj->mViews[id]->IsLoading()) {
-                     sleep(SLEEP_MS);
-                              // required
-                                       obj->mWebCore->Update();
-                                            }
     }
     return scope.Close(Undefined());
 
