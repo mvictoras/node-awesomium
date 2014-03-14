@@ -25,6 +25,9 @@
                     'ldflags': [
                         '',
                     ],
+                    'include_dirs': [
+                      '$(AWE_DIR)include',
+                      ],
                 },
             ],
         ]
