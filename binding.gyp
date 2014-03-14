@@ -27,6 +27,7 @@
                     ],
                     'include_dirs': [
                       '$(AWE_DIR)include',
+                      'C:\libjpeg-turbo64\include',
                       ],
                 },
             ],
