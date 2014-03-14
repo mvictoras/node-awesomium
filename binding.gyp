@@ -22,8 +22,11 @@
             ],
 		    ['OS=="win"',
                 {
-                    'ldflags': [
-                        '',
+                    'libraries': [
+                        '-lturbojpeg',
+                        '-LC:\libjpeg-turbo64\lib',
+                        '-lawesomium',
+                        '-L${AWE_DIR)build\lib'
                     ],
                     'include_dirs': [
                       '$(AWE_DIR)include',
