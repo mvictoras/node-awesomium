@@ -6,6 +6,8 @@
 #include <jpeglib.h>
 #include <stdlib.h>
 
+#include <omp.h>
+
 #if defined(__WIN32__) || defined(_WIN32)
     #include <windows.h>
     #define sleep(x) Sleep(x)
@@ -31,21 +33,21 @@ const char WebBrowser::encoding_table[] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H
 const int WebBrowser::mod_table[] = {0, 2, 1};
 
 
-WebBrowser::WebBrowser(int wallWidth, int wallHeight, int initWidth, int initHeight) : 
-    mWallWidth(wallWidth), mWallHeight(wallHeight), 
+WebBrowser::WebBrowser(int wallWidth, int wallHeight, int initWidth, int initHeight) :
+    mWallWidth(wallWidth), mWallHeight(wallHeight),
     mInitWidth(initWidth), mInitHeight(initHeight) {
 
         WebConfig conf;
         conf.log_level = kLogLevel_Verbose;
-                  
+
         mWebCore = WebCore::Initialize(conf);
 }
 
-Handle<Value> WebBrowser::createWindow(const Arguments& args) { 
+Handle<Value> WebBrowser::createWindow(const Arguments& args) {
     HandleScope scope;
 
     WebBrowser* obj = ObjectWrap::Unwrap<WebBrowser>(args.This());
-    
+
     String::Utf8Value argId(args[0]->ToString());
     std::string id(*argId);
 
@@ -58,7 +60,7 @@ Handle<Value> WebBrowser::createWindow(const Arguments& args) {
 
     obj->mViewWidth[id] = obj->mInitWidth;
     obj->mViewHeight[id] = obj->mInitHeight;
-                                          
+
     // XXXXX
     WebURL webUrl(WSLit(url.c_str()));
     obj->mViews[id]->LoadURL(webUrl);
@@ -72,11 +74,11 @@ Handle<Value> WebBrowser::createWindow(const Arguments& args) {
     return scope.Close(Undefined());
 }
 
-Handle<Value> WebBrowser::removeWindow(const Arguments& args) { 
+Handle<Value> WebBrowser::removeWindow(const Arguments& args) {
     HandleScope scope;
 
     WebBrowser* obj = ObjectWrap::Unwrap<WebBrowser>(args.This());
-    
+
     String::Utf8Value argId(args[0]->ToString());
     std::string id(*argId);
 
@@ -87,7 +89,7 @@ Handle<Value> WebBrowser::removeWindow(const Arguments& args) {
              obj->mViews.erase(it);
         }
     }
-    
+
     {
         StringToInt::iterator it = obj->mViewWidth.find(id);
         if(it!= obj->mViewWidth.end()) {
@@ -106,11 +108,11 @@ Handle<Value> WebBrowser::removeWindow(const Arguments& args) {
 }
 
 
-Handle<Value> WebBrowser::loadUrl(const Arguments& args) { 
+Handle<Value> WebBrowser::loadUrl(const Arguments& args) {
     HandleScope scope;
 
     WebBrowser* obj = ObjectWrap::Unwrap<WebBrowser>(args.This());
-    
+
     String::Utf8Value argId(args[0]->ToString());
     std::string id(*argId);
 
@@ -121,7 +123,7 @@ Handle<Value> WebBrowser::loadUrl(const Arguments& args) {
 
         WebURL webUrl(WSLit(url.c_str()));
         obj->mViews[id]->LoadURL(webUrl);
-    
+
         while(obj->mViews[id]->IsLoading()) {
             sleep(SLEEP_MS);
             // required
@@ -174,14 +176,14 @@ Handle<Value> WebBrowser::New(const Arguments& args) {
         WebBrowser* obj = new WebBrowser(wallWidth, wallHeight, initWidth, initHeight);
         obj->Wrap(args.This());
         return args.This();
-    } else {  
-        // XXX   
+    } else {
+        // XXX
         // Invoked as plain function `WebBrowser(...)`, turn into construct call.
         HandleScope scope;
         const int argc = 4;
         Local<Value> argv[argc] = { args[0], argv[1], argv[2], argv[3] };
         return scope.Close(constructor->NewInstance(argc, argv));
-    } 
+    }
 }
 
 Handle<Value> WebBrowser::PlusOne(const Arguments& args) {
@@ -191,26 +193,26 @@ Handle<Value> WebBrowser::PlusOne(const Arguments& args) {
     //obj->value_ += 1;
 
     return scope.Close(Number::New(10));
-}    
+}
 
 Handle<Value> WebBrowser::getFrame(const Arguments& args) {
     HandleScope scope;
 
     WebBrowser* obj = ObjectWrap::Unwrap<WebBrowser>(args.This());
     obj->mWebCore->Update();
-    
+
     String::Utf8Value argId(args[0]->ToString());
     std::string id(*argId);
 
     if(obj->mViews.find(id) != obj->mViews.end()) {
         BitmapSurface* surface = (BitmapSurface*)obj->mViews[id]->surface();
-    
+
         if (surface != 0) {
             return scope.Close(String::New(obj->convertToJpeg(surface->buffer(), obj->mViewWidth[id], obj->mViewHeight[id]).c_str()));
         } else {
         }
     }
-    
+
     // XXX - Add a loading screen?
     return scope.Close(String::New(""));
 }
@@ -290,6 +292,7 @@ char* WebBrowser::base64_encode(const unsigned char *data,
     char *encoded_data = (char*)malloc(sizeof(char*) * *output_length);
     if (encoded_data == NULL) return NULL;
 
+    #pragma omp for
     for (unsigned int i = 0, j = 0; i < input_length;) {
 
         uint32_t octet_a = i < input_length ? (unsigned char)data[i++] : 0;
@@ -304,6 +307,7 @@ char* WebBrowser::base64_encode(const unsigned char *data,
         encoded_data[j++] = encoding_table[(triple >> 0 * 6) & 0x3F];
     }
 
+    #pragma omp for
     for (int i = 0; i < mod_table[input_length % 3]; i++)
         encoded_data[*output_length - 1 - i] = '=';
 
@@ -312,6 +316,7 @@ char* WebBrowser::base64_encode(const unsigned char *data,
 
 /* Converts a line from BGRA to RGB */
 void WebBrowser::BGRAtoRGB(const unsigned char* bgra, int pixel_width, unsigned char* rgb) {
+    #pragma omp for
     for (int x = 0; x < pixel_width; x++) {
         const unsigned char* pixel_in = &bgra[x * 4];
         unsigned char* pixel_out = &rgb[x * 3];
@@ -329,7 +334,7 @@ std::string WebBrowser::convertToJpeg(const unsigned char* buffer, int width, in
 
     cinfo.err = jpeg_std_error(&jerr);
     jerr.trace_level = 10;
-    
+
     jpeg_create_compress(&cinfo);
     //boost::uint8_t *jpeg_buffer_raw = NULL;
     unsigned char *jpeg_buffer_raw = NULL;
@@ -346,7 +351,7 @@ std::string WebBrowser::convertToJpeg(const unsigned char* buffer, int width, in
     jpeg_start_compress(&cinfo, true);
     int row_stride = width * 4;
     JSAMPROW row_pointer[1];
-    
+
     while (cinfo.next_scanline < cinfo.image_height) {
         BGRAtoRGB(&buffer[cinfo.next_scanline * row_stride], width, rgb);
         row_pointer[0] = (JSAMPROW) rgb;
@@ -355,7 +360,7 @@ std::string WebBrowser::convertToJpeg(const unsigned char* buffer, int width, in
 
     jpeg_finish_compress(&cinfo);
     jpeg_destroy_compress(&cinfo);
-    
+
     size_t out;
     char* base64 = base64_encode(jpeg_buffer_raw, outbuffer_size, &out);
 
