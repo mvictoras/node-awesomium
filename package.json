@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "webworker-threads": "latest"
-  }
+  },
   "keywords": [
     "awesomium"
   ],
