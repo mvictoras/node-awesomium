@@ -7,6 +7,9 @@
     "type": "git",
     "url": "git://github.com/mvictoras/node-awesomium.git"
   },
+  "dependencies": {
+    "webworker-threads": "latest"
+  }
   "keywords": [
     "awesomium"
   ],
