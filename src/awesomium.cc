@@ -6,7 +6,9 @@
 #include <jpeglib.h>
 #include <stdlib.h>
 
+#ifdef _OPENMP
 #include <omp.h>
+#endif
 
 #if defined(__WIN32__) || defined(_WIN32)
     #include <windows.h>
@@ -292,7 +294,7 @@ char* WebBrowser::base64_encode(const unsigned char *data,
     char *encoded_data = (char*)malloc(sizeof(char*) * *output_length);
     if (encoded_data == NULL) return NULL;
 
-    #pragma omp for
+    #pragma omp parallel
     for (unsigned int i = 0, j = 0; i < input_length;) {
 
         uint32_t octet_a = i < input_length ? (unsigned char)data[i++] : 0;
@@ -307,7 +309,7 @@ char* WebBrowser::base64_encode(const unsigned char *data,
         encoded_data[j++] = encoding_table[(triple >> 0 * 6) & 0x3F];
     }
 
-    #pragma omp for
+    #pragma omp parallel
     for (int i = 0; i < mod_table[input_length % 3]; i++)
         encoded_data[*output_length - 1 - i] = '=';
 
@@ -316,7 +318,7 @@ char* WebBrowser::base64_encode(const unsigned char *data,
 
 /* Converts a line from BGRA to RGB */
 void WebBrowser::BGRAtoRGB(const unsigned char* bgra, int pixel_width, unsigned char* rgb) {
-    #pragma omp for
+    #pragma omp parallel
     for (int x = 0; x < pixel_width; x++) {
         const unsigned char* pixel_in = &bgra[x * 4];
         unsigned char* pixel_out = &rgb[x * 3];

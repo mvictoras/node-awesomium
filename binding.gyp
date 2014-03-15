@@ -10,6 +10,9 @@
                         '-lawesomium-1-7',
                         '-ljpeg',
                     ],
+                    'cflags': [
+                        '-fopenmp'
+                    ],
                 },
             ],
             ['OS=="mac"',
