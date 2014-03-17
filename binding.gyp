@@ -2,7 +2,7 @@
 	'targets': [{
 		'target_name': 'awesomium',
         'variables': {
-            'WIN_LIBJPEG_ROOT%': 'C:\\libjpeg-turbo64\\lib\\'
+            'WIN_LIBJPEG_ROOT%': 'C:\\libjpeg-turbo\\lib\\'
         },
 		"sources": [ "src/awesomium.cc", "src/webBrowser.cc" ],
 		'default_configuration': 'Release',
