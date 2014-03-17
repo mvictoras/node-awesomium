@@ -27,8 +27,7 @@
                 {
                     'libraries': [
                         '-l"C:\\libjpeg-turbo64\\lib\\turbojpeg.lib"',
-                        '-lawesomium',
-                        '-L${AWE_DIR)build/lib'
+                        '-l"${AWE_DIR)build\\lib\\awesomium.lib"'
                     ],
                     'include_dirs': [
                       '$(AWE_DIR)include',
