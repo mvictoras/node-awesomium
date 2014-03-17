@@ -26,7 +26,7 @@
 		    ['OS=="win"',
                 {
                     'libraries': [
-                        '-l"C:\libjpeg-turbo64\lib\turbojpeg.lib"',
+                        '-l"C:\\libjpeg-turbo64\\lib\\turbojpeg.lib"',
                         '-lawesomium',
                         '-L${AWE_DIR)build/lib'
                     ],
