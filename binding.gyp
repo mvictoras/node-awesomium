@@ -3,7 +3,7 @@
 		'target_name': 'awesomium',
         'variables': {
             'WIN_LIBJPEG_ROOT%': 'C:\\libjpeg-turbo64\\lib\\'
-        }
+        },
 		"sources": [ "src/awesomium.cc", "src/webBrowser.cc" ],
 		'default_configuration': 'Release',
         'conditions': [
