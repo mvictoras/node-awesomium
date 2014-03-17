@@ -26,14 +26,13 @@
 		    ['OS=="win"',
                 {
                     'libraries': [
-                        '-lturbojpeg',
-                        '-L"C:/libjpeg-turbo64/lib"',
+                        '-l"C:\libjpeg-turbo64\lib\turbojpeg.lib"',
                         '-lawesomium',
                         '-L${AWE_DIR)build/lib'
                     ],
                     'include_dirs': [
                       '$(AWE_DIR)include',
-                      'C:/libjpeg-turbo64/include',
+                      'C:\libjpeg-turbo64\include',
                       ],
                 },
             ],
