@@ -29,7 +29,7 @@
 		    ['OS=="win"',
                 {
                     'libraries': [
-                        '-l<(WIN_LIBJPEG_ROOT)turbojpeg.lib',
+                        '-l<(WIN_LIBJPEG_ROOT)turbojpeg-static.lib',
                         '-l$(AWE_DIR)build\\lib\\awesomium.lib'
                     ],
                     'include_dirs': [
