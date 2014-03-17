@@ -33,7 +33,7 @@
                             '-l<(WIN_LIBJPEG_ROOT)turbojpeg-static.lib',
                             '-l$(AWE_DIR)build\\lib\\awesomium.lib'
                         ],
-                    }
+                    },
                     'include_dirs': [
                       '$(AWE_DIR)include',
                       'C:\\libjpeg-turbo\\include',
