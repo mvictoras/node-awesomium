@@ -34,7 +34,7 @@
                     ],
                     'include_dirs': [
                       '$(AWE_DIR)include',
-                      '<(WIN_LIBJPEG_ROOT)include',
+                      'C:\\libjpeg-turbo\\include',
                       ],
                 },
             ],
