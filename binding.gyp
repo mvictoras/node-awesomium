@@ -27,13 +27,13 @@
                 {
                     'libraries': [
                         '-lturbojpeg',
-                        '-L"C:\libjpeg-turbo64\lib"',
+                        '-L"C:/libjpeg-turbo64/lib"',
                         '-lawesomium',
-                        '-L${AWE_DIR)build\lib'
+                        '-L${AWE_DIR)build/lib'
                     ],
                     'include_dirs': [
                       '$(AWE_DIR)include',
-                      'C:\libjpeg-turbo64\include',
+                      'C:/libjpeg-turbo64/include',
                       ],
                 },
             ],
