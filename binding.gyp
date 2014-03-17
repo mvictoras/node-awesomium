@@ -27,7 +27,7 @@
                 {
                     'libraries': [
                         '-lturbojpeg',
-                        '-LC:\libjpeg-turbo64\lib',
+                        '-L"C:\libjpeg-turbo64\lib""',
                         '-lawesomium',
                         '-L${AWE_DIR)build\lib'
                     ],
