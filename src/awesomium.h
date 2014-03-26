@@ -3,9 +3,11 @@
 
 #include <node.h>
 
-//#include <Awesomium/WebCore.h>
-//#include <Awesomium/BitmapSurface.h>
-//#include <Awesomium/STLHelpers.h>
+#ifdef AWESOMIUM
+#include <Awesomium/WebCore.h>
+#include <Awesomium/BitmapSurface.h>
+#include <Awesomium/STLHelpers.h>
+#endif
 
 #include "cefHandler.h"
 #include "include/cef_client.h"
@@ -13,7 +15,11 @@
 #include <map>
 #include <string>
 
-//using namespace Awesomium;
+#define AWESOMIUM 0
+
+#ifdef AWESOMIUM
+using namespace Awesomium;
+#endif
 
 class WebBrowser : public node::ObjectWrap {
 
@@ -54,10 +60,14 @@ private:
     StringToInt mViewWidth;
     StringToInt mViewHeight;
 
-    //typedef std::map<std::string, WebView*> WebViewType;
-    //WebViewType mViews;
+#ifdef AWESOMIUM
+    typedef std::map<std::string, WebView*> WebViewType;
+    WebViewType mViews;
 
-    //WebCore* mWebCore;
+    WebCore* mWebCore;
+#else
+    CefRefPtr<ClientHandler> clientHandler;
+#endif
 
     static const char encoding_table[];
     static const int mod_table[];
@@ -66,7 +76,6 @@ private:
 
 
 
-    CefRefPtr<ClientHandler> clientHandler;
 };
 
 #endif

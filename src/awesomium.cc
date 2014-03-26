@@ -45,6 +45,8 @@ WebBrowser::WebBrowser(int wallWidth, int wallHeight, int initWidth, int initHei
     mWallWidth(wallWidth), mWallHeight(wallHeight),
     mInitWidth(initWidth), mInitHeight(initHeight) {
 
+#ifdef AWESOMIUM
+#else
     CefWindowInfo window_info;
     CefBrowserSettings browserSettings;
     CefSettings settings;
@@ -56,6 +58,8 @@ WebBrowser::WebBrowser(int wallWidth, int wallHeight, int initWidth, int initHei
             browserSettings, NULL);
 
     CefRunMessageLoop();
+#endif
+
 }
 
 Handle<Value> WebBrowser::createWindow(const Arguments& args) {
@@ -69,8 +73,7 @@ Handle<Value> WebBrowser::createWindow(const Arguments& args) {
     String::Utf8Value argUrl(args[1]->ToString());
     std::string url(*argUrl);
 
-
-    /*
+#ifdef AWESOMIUM
     obj->mViews[id] = obj->mWebCore->CreateWebView(obj->mWallWidth, obj->mWallHeight, 0, kWebViewType_Offscreen);
     obj->mViews[id]->Resize(obj->mInitWidth, obj->mInitHeight);
 
@@ -86,8 +89,7 @@ Handle<Value> WebBrowser::createWindow(const Arguments& args) {
         // required
         obj->mWebCore->Update();
     }
-
-    */
+#endif
 
     return scope.Close(Undefined());
 }
@@ -100,7 +102,7 @@ Handle<Value> WebBrowser::removeWindow(const Arguments& args) {
     String::Utf8Value argId(args[0]->ToString());
     std::string id(*argId);
 
-    /*
+#ifdef AWESOMIUM
     {
         WebViewType::iterator it = obj->mViews.find(id);
         if(it!= obj->mViews.end()) {
@@ -122,7 +124,8 @@ Handle<Value> WebBrowser::removeWindow(const Arguments& args) {
              obj->mViewHeight.erase(it);
         }
     }
-    */
+#endif
+
     return scope.Close(Undefined());
 }
 
@@ -138,7 +141,7 @@ Handle<Value> WebBrowser::loadUrl(const Arguments& args) {
     String::Utf8Value argUrl(args[1]->ToString());
     std::string url(*argUrl);
 
-    /*
+#ifdef AWESOMIUM
     if(obj->mViews.find(id) != obj->mViews.end()) {
 
         WebURL webUrl(WSLit(url.c_str()));
@@ -150,7 +153,7 @@ Handle<Value> WebBrowser::loadUrl(const Arguments& args) {
             obj->mWebCore->Update();
         }
     }
-    */
+#endif
 
     return scope.Close(Undefined());
 }
@@ -220,7 +223,7 @@ Handle<Value> WebBrowser::getFrame(const Arguments& args) {
     HandleScope scope;
 
     WebBrowser* obj = ObjectWrap::Unwrap<WebBrowser>(args.This());
-    /*
+#ifdef AWESOMIUM
     obj->mWebCore->Update();
 
     String::Utf8Value argId(args[0]->ToString());
@@ -234,8 +237,7 @@ Handle<Value> WebBrowser::getFrame(const Arguments& args) {
         } else {
         }
     }
-
-    */
+#endif
     // XXX - Add a loading screen?
     return scope.Close(String::New(""));
 }
@@ -251,7 +253,7 @@ Handle<Value> WebBrowser::resize(const Arguments &args) {
     int width = args[1]->Int32Value();
     int height = args[2]->Int32Value();
 
-    /*
+#ifdef AWESOMIUM
     if(width > obj->mWallWidth) {
         width = obj->mWallWidth;
     }
@@ -264,7 +266,7 @@ Handle<Value> WebBrowser::resize(const Arguments &args) {
         obj->mViewHeight[id] = height;
         obj->mViews[id]->Resize(width, height);
     }
-    */
+#endif
 
     return scope.Close(Undefined());
 
@@ -281,14 +283,14 @@ Handle<Value> WebBrowser::click(const Arguments &args) {
     int x = args[1]->Int32Value();
     int y = args[2]->Int32Value();
 
-    /*
+#ifdef AWESOMIUM
     if(obj->mViews.find(id) != obj->mViews.end()) {
         obj->mViews[id]->InjectMouseMove(x, y);
         obj->mViews[id]->InjectMouseDown(kMouseButton_Left);
         obj->mViews[id]->InjectMouseUp(kMouseButton_Left);
     }
 
-    */
+#endif
     return scope.Close(Undefined());
 }
 
@@ -302,14 +304,14 @@ Handle<Value> WebBrowser::keyPress(const Arguments &args) {
 
     int key = args[1]->Int32Value();
 
-    /*
+#ifdef AWESOMIUM
     if(obj->mViews.find(id) != obj->mViews.end()) {
         WebKeyboardEvent keyEvent;
         keyEvent.type = WebKeyboardEvent::kTypeChar;
         keyEvent.text[0] =  key;
         obj->mViews[id]->InjectKeyboardEvent(keyEvent);
     }
-    */
+#endif
     return scope.Close(Undefined());
 }
 
