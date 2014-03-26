@@ -8,11 +8,18 @@
         'conditions': [
             ['OS=="linux"', 
                 {
-		           'sources': [ 'src/awesomium.cc', "src/webBrowser.cc' ],
+		           'sources': [ 'src/awesomium.cc', 'src/webBrowser.cc', 'src/cefHandler.cc' ],
+                   'include_dirs': [
+                        'cef',
+                    ],
+                    'cflags_cc': [
+                        '<!@(pkg-config --cflags gtk+-2.0)',
+                    ],
                     'libraries': [
                         '-lawesomium-1-7',
                         '-ljpeg',
-                    ],
+                        '<!@(pkg-config --libs gtk+-2.0)',
+],
                     'cflags': [
                         '-fopenmp'
                     ],

@@ -1,10 +1,16 @@
 #define BUILDING_NODE_EXTENSION
 #include <node.h>
 #include "awesomium.h"
-#include "Awesomium/WebKeyboardEvent.h"
+//#include "Awesomium/WebKeyboardEvent.h"
 
 #include <jpeglib.h>
 #include <stdlib.h>
+
+#include "include/cef_app.h"
+#include "include/cef_browser.h"
+#include "include/cef_render_handler.h"
+
+#include "cefHandler.h"
 
 #ifdef _OPENMP
 #include <omp.h>
@@ -39,10 +45,17 @@ WebBrowser::WebBrowser(int wallWidth, int wallHeight, int initWidth, int initHei
     mWallWidth(wallWidth), mWallHeight(wallHeight),
     mInitWidth(initWidth), mInitHeight(initHeight) {
 
-        WebConfig conf;
-        conf.log_level = kLogLevel_Verbose;
+    CefWindowInfo window_info;
+    CefBrowserSettings browserSettings;
+    CefSettings settings;
 
-        mWebCore = WebCore::Initialize(conf);
+    clientHandler = new ClientHandler();
+    bool br = CefBrowserHost::CreateBrowserSync(window_info,
+            clientHandler.get(),
+            "http://www.google.com",
+            browserSettings, NULL);
+
+    CefRunMessageLoop();
 }
 
 Handle<Value> WebBrowser::createWindow(const Arguments& args) {
@@ -57,6 +70,7 @@ Handle<Value> WebBrowser::createWindow(const Arguments& args) {
     std::string url(*argUrl);
 
 
+    /*
     obj->mViews[id] = obj->mWebCore->CreateWebView(obj->mWallWidth, obj->mWallHeight, 0, kWebViewType_Offscreen);
     obj->mViews[id]->Resize(obj->mInitWidth, obj->mInitHeight);
 
@@ -73,6 +87,8 @@ Handle<Value> WebBrowser::createWindow(const Arguments& args) {
         obj->mWebCore->Update();
     }
 
+    */
+
     return scope.Close(Undefined());
 }
 
@@ -84,6 +100,7 @@ Handle<Value> WebBrowser::removeWindow(const Arguments& args) {
     String::Utf8Value argId(args[0]->ToString());
     std::string id(*argId);
 
+    /*
     {
         WebViewType::iterator it = obj->mViews.find(id);
         if(it!= obj->mViews.end()) {
@@ -105,7 +122,7 @@ Handle<Value> WebBrowser::removeWindow(const Arguments& args) {
              obj->mViewHeight.erase(it);
         }
     }
-
+    */
     return scope.Close(Undefined());
 }
 
@@ -121,6 +138,7 @@ Handle<Value> WebBrowser::loadUrl(const Arguments& args) {
     String::Utf8Value argUrl(args[1]->ToString());
     std::string url(*argUrl);
 
+    /*
     if(obj->mViews.find(id) != obj->mViews.end()) {
 
         WebURL webUrl(WSLit(url.c_str()));
@@ -132,6 +150,7 @@ Handle<Value> WebBrowser::loadUrl(const Arguments& args) {
             obj->mWebCore->Update();
         }
     }
+    */
 
     return scope.Close(Undefined());
 }
@@ -201,6 +220,7 @@ Handle<Value> WebBrowser::getFrame(const Arguments& args) {
     HandleScope scope;
 
     WebBrowser* obj = ObjectWrap::Unwrap<WebBrowser>(args.This());
+    /*
     obj->mWebCore->Update();
 
     String::Utf8Value argId(args[0]->ToString());
@@ -215,6 +235,7 @@ Handle<Value> WebBrowser::getFrame(const Arguments& args) {
         }
     }
 
+    */
     // XXX - Add a loading screen?
     return scope.Close(String::New(""));
 }
@@ -230,6 +251,7 @@ Handle<Value> WebBrowser::resize(const Arguments &args) {
     int width = args[1]->Int32Value();
     int height = args[2]->Int32Value();
 
+    /*
     if(width > obj->mWallWidth) {
         width = obj->mWallWidth;
     }
@@ -242,6 +264,8 @@ Handle<Value> WebBrowser::resize(const Arguments &args) {
         obj->mViewHeight[id] = height;
         obj->mViews[id]->Resize(width, height);
     }
+    */
+
     return scope.Close(Undefined());
 
 }
@@ -257,12 +281,14 @@ Handle<Value> WebBrowser::click(const Arguments &args) {
     int x = args[1]->Int32Value();
     int y = args[2]->Int32Value();
 
-
+    /*
     if(obj->mViews.find(id) != obj->mViews.end()) {
         obj->mViews[id]->InjectMouseMove(x, y);
         obj->mViews[id]->InjectMouseDown(kMouseButton_Left);
         obj->mViews[id]->InjectMouseUp(kMouseButton_Left);
     }
+
+    */
     return scope.Close(Undefined());
 }
 
@@ -276,12 +302,14 @@ Handle<Value> WebBrowser::keyPress(const Arguments &args) {
 
     int key = args[1]->Int32Value();
 
+    /*
     if(obj->mViews.find(id) != obj->mViews.end()) {
         WebKeyboardEvent keyEvent;
         keyEvent.type = WebKeyboardEvent::kTypeChar;
         keyEvent.text[0] =  key;
         obj->mViews[id]->InjectKeyboardEvent(keyEvent);
     }
+    */
     return scope.Close(Undefined());
 }
 
