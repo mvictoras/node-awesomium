@@ -15,8 +15,6 @@
 #include <map>
 #include <string>
 
-#define AWESOMIUM 0
-
 #ifdef AWESOMIUM
 using namespace Awesomium;
 #endif
