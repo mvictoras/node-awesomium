@@ -40,7 +40,7 @@
                             ],
                         },
                     ],
- 'cflags': [
+                    'cflags': [
                         '-fopenmp'
                     ],
                 },
