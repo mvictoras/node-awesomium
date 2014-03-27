@@ -52,7 +52,6 @@
                     'libraries': [
                         '-ljpeg',
                         '-L$(CEF3_DIR)/Release',
-                        '-lcef',
                     ],
                     'cflags': [
                         '-fopenmp'
