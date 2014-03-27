@@ -54,8 +54,13 @@
                     ],
                     'link_settings': {
                         'libraries': [
-                            '-framework', '$(CEF3_DIR)/Release/Chromium Embedded Framework.framework',
                         ],
+
+                        "xcode_settings": {
+                            "OTHER_LDFLAGS": [
+                                "-Wl,-install_name,@$(CEF3_DIR)/Release/Chromium\ Embedded\ Framework.framework/Libraries/libcef.dylib",
+                            ]
+                        },
                     },
                     'cflags': [
                         '-fopenmp'
