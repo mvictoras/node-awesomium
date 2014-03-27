@@ -58,7 +58,7 @@
                     ],
                     "xcode_settings": {
                         "OTHER_LDFLAGS": [
-                            "-Wl,-install_name,@loader_path/..$(CEF3_DIR)/Release/Chromium\ Embedded\ Framework.framework"
+                            "-Wl,-install_name,$(CEF3_DIR)/Release/Chromium\ Embedded\ Framework.framework"
                         ]
                     },
                     'copies': [
@@ -113,15 +113,6 @@
                                 '-Rf',
                                 '$(CEF3_DIR)/Release/Chromium Embedded Framework.framework/Resources',
                                 '${BUILT_PRODUCTS_DIR}'
-                            ],
-                        },
-                        {
-                            'postbuild_name': 'Copy Resources into node',
-                            'action': [
-                                'cp',
-                                '-Rf',
-                                '$(CEF3_DIR)/Release/Chromium Embedded Framework.framework/Resources',
-                                '${BUILT_PRODUCTS_DIR}/awesomium.node/'
                             ],
                         },
                     ],
