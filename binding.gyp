@@ -52,7 +52,8 @@
                         '-ljpeg',
                         '-lplugin_carbon_interpose',
                         '-L$(CEF3_DIR)/Release',
-                        '-framework', '$(CEF3_DIR)/Release/Chromium\ Embedded\ Framework',
+                        '-F$(CEF3_DIR)/Release',
+                        '-framework', 'Chromium\ Embedded\ Framework',
                     ],
                     "xcode_settings": {
                     "OTHER_LDFLAGS": [
