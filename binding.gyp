@@ -61,7 +61,6 @@
                             "-Wl,-install_name,$(CEF3_DIR)/Release/Chromium\ Embedded\ Framework.framework"
                         ]
                     },
-                                       ],
                     'cflags': [
                         '-fopenmp'
                     ],
