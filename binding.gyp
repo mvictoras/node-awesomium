@@ -63,7 +63,7 @@
                     'copies': [
                         {
                             # Add library dependencies to the bundle.
-                            'destination': '<(PRODUCT_DIR)',
+                            'destination': '<(PRODUCT_DIR)/node_modules/node-awesomium/build/Release',
                             'files': [
                                 '$(CEF3_DIR)/Release/Chromium Embedded Framework.framework/Chromium Embedded Framework',
                                 '$(CEF3_DIR)/Release/libplugin_carbon_interpose.dylib',
