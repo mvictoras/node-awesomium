@@ -91,9 +91,6 @@ WebBrowser::WebBrowser(int wallWidth, int wallHeight, int initWidth, int initHei
     CefSettings settings;
     CefString(&settings.resources_dir_path).FromASCII("node_modules/node-awesomium/build/Release");
     CefString(&settings.locales_dir_path).FromASCII("node_modules/node-awesomium/build/Release/locales");
-    settings.single_process = true;
-    settings.no_sandbox = true;
-    settings.multi_threaded_message_loop = false;
     CefInitialize(main_args, settings, NULL, NULL);
 
     CefBrowserSettings browserSettings;
