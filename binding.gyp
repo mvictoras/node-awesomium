@@ -19,8 +19,9 @@
                         '-lawesomium-1-7',
                         '-ljpeg',
                         '<!@(pkg-config --libs gtk+-2.0)',
-                        '-l$(CEF3_DIR)/Release/libcef.so',
-                        '-l$(CEF3_DIR)/Release/libffmpegsumo.so',
+                        '-L$(CEF3_DIR)/Release}'
+                        '-lcef',
+                        '-lffmpegsumo',
 ],
                     'cflags': [
                         '-fopenmp'
