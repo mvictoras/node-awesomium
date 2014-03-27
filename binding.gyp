@@ -36,7 +36,7 @@
                                 'cp',
                                 '-Rf',
                                 '$(CEF3_DIR)/out/Release/locales',
-                                '${BUILT_PRODUCTS_DIR}'
+                                '${BUILT_PRODUCTS_DIR}',
                             ],
                         },
                     ],
