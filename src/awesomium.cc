@@ -6,6 +6,9 @@
 #include <jpeglib.h>
 #include <stdlib.h>
 
+#include <iostream>
+
+
 #include "include/cef_app.h"
 #include "include/cef_browser.h"
 #include "include/cef_render_handler.h"
@@ -45,6 +48,7 @@ WebBrowser::WebBrowser(int wallWidth, int wallHeight, int initWidth, int initHei
     mWallWidth(wallWidth), mWallHeight(wallHeight),
     mInitWidth(initWidth), mInitHeight(initHeight) {
 
+    std::cout << "Initializing from moduke" << std::endl;
 #ifdef AWESOMIUM
 #else
     CefWindowInfo window_info;
