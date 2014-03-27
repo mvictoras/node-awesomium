@@ -7,6 +7,7 @@
 #include <stdlib.h>
 
 #include <iostream>
+#include <stdlib.h>
 
 
 #include "include/cef_app.h"
@@ -55,6 +56,11 @@ WebBrowser::WebBrowser(int wallWidth, int wallHeight, int initWidth, int initHei
     CefWindowInfo window_info;
     CefBrowserSettings browserSettings;
     CefSettings settings;
+    std::string path(getenv ("CEF3_DIR"));
+    path = path.append("/out/Release");
+
+    CefString(&settings.locales_dir_path).FromASCII(path.append("/locales").c_str());
+    CefString(&settings.resources_dir_path).FromASCII(path.c_str());
 
     int result = CefExecuteProcess(cef_args, NULL, NULL);
     if(result >=0)
