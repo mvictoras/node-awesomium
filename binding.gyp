@@ -52,7 +52,6 @@
                         '-ljpeg',
                         '-lplugin_carbon_interpose',
                         '-L$(CEF3_DIR)/Release',
-                        '$(CEF3_DIR)/Release/Chromium\ Embedded\ Framework.framework',
                     ],
                     'cflags': [
                         '-fopenmp'
