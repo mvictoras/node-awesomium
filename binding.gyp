@@ -105,16 +105,6 @@
                                 '${BUILT_PRODUCTS_DIR}/libplugin_carbon_interpose.dylib'
                             ],
                         },
-                        {
-                            'postbuild_name': 'Fix libplugin_carbon_interpose Link of libplugin_carbon_interpose.dylib file',
-                            'action': [
-                                'install_name_tool',
-                                '-change',
-                                '/usr/local/lib/libplugin_carbon_interpose.dylib',
-                                '${BUILT_PRODUCTS_DIR}/libplugin_carbon_interpose.dylib',
-                                '${BUILT_PRODUCTS_DIR}/libplugin_carbon_interpose.dylib'
-                            ],
-                        },
                     ],
                     'cflags': [
                         '-fopenmp'
