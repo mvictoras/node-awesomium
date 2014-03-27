@@ -51,7 +51,7 @@
                     'libraries': [
                         '-L$(CEF3_DIR)/Release/Chromium\ Embedded\ Framework.framework/Libraries',
                         '-ljpeg',
-                        '-lcef',
+                        '-lplugin_carbon_interpose',
                         '-L$(CEF3_DIR)/Release',
                     ],
                     'link_settings': {
