@@ -10,7 +10,7 @@
                 {
 		           'sources': [ 'src/awesomium.cc', 'src/webBrowser.cc', 'src/cefHandler.cc' ],
                    'include_dirs': [
-                        'cef',
+                        '$(CEF_DIR)',
                     ],
                     'cflags_cc': [
                         '<!@(pkg-config --cflags gtk+-2.0)',
