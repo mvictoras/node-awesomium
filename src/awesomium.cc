@@ -48,7 +48,7 @@ WebBrowser::WebBrowser(int wallWidth, int wallHeight, int initWidth, int initHei
     mWallWidth(wallWidth), mWallHeight(wallHeight),
     mInitWidth(initWidth), mInitHeight(initHeight) {
 
-    std::cout << "Initializing from moduke" << std::endl;
+    std::cout << "Initializing from module webBrowser" << std::endl;
 #ifdef AWESOMIUM
 #else
     CefWindowInfo window_info;

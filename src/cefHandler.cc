@@ -1,5 +1,7 @@
 #include "cefHandler.h"
 
+#include <iostream>
+
 //void ClientHandler::OnBeforeClose(CefRefPtr<CefBrowser> browser) {
 //}
 
@@ -12,4 +14,5 @@ void ClientHandler::OnPaint(CefRefPtr<CefBrowser> browser,
                             const void* buffer,
                             int width,
                             int height) {
+    std::cout << "Painting!" << std::endl;
 }
