@@ -86,13 +86,23 @@
                             ],
                         },
                         {
-                            'postbuild_name': 'Fix libplugin_carbon_interpose Link',
+                            'postbuild_name': 'Fix libplugin_carbon_interpose Link of .node file',
                             'action': [
                                 'install_name_tool',
                                 '-change',
                                 '/usr/local/lib/libplugin_carbon_interpose.dylib',
                                 '${BUILT_PRODUCTS_DIR}/libplugin_carbon_interpose.dylib',
                                 '${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}'
+                            ],
+                        },
+                        {
+                            'postbuild_name': 'Fix libplugin_carbon_interpose Link',
+                            'action': [
+                                'install_name_tool',
+                                '-change',
+                                '@executable_path/../../../../Frameworks/Chromium Embedded Framework.framework/Chromium Embedded Framework',
+                                '${BUILT_PRODUCTS_DIR}/Chromium Embedded Framework',
+                                '${BUILT_PRODUCTS_DIR}/libplugin_carbon_interpose.dylib'
                             ],
                         },
                     ],
