@@ -61,6 +61,8 @@ WebBrowser::WebBrowser(int wallWidth, int wallHeight, int initWidth, int initHei
             "http://www.google.com",
             browserSettings, NULL);
 
+    if(!br)
+        std::cout << "FAIL!" << std::endl;
     CefRunMessageLoop();
     clientHandler->GetBrowser()->GetMainFrame()->LoadURL("www.youtube.com");
 #endif
