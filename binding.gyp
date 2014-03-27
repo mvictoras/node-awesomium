@@ -54,7 +54,7 @@
                     ],
                     'link_settings': {
                         'libraries': [
-                            '"$(CEF3_DIR)/Release/Chromium\ Embedded\ Framework.framework"',
+                            '-framework', '"$(CEF3_DIR)/Release/Chromium\ Embedded\ Framework.framework"',
                         ],
                     },
                     'cflags': [
