@@ -89,7 +89,7 @@
                                     'install_name_tool',
                                 '-change',
                                 '/usr/local/lib/libplugin_carbon_interpose.dylib',
-                                '@executable_path/libplugin_carbon_interpose.dylib',
+                                '${BUILT_PRODUCTS_DIR}/libplugin_carbon_interpose.dylib',
                                 '${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}'
                             ],
                         },
