@@ -19,7 +19,7 @@
                         '-lawesomium-1-7',
                         '-ljpeg',
                         '<!@(pkg-config --libs gtk+-2.0)',
-                        '-L$(CEF3_DIR)/Release}'
+                        '-L$(CEF3_DIR)/Release'
                         '-lcef',
                         '-lffmpegsumo',
 ],
