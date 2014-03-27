@@ -53,6 +53,11 @@
                         '-lplugin_carbon_interpose',
                         '-L$(CEF3_DIR)/Release',
                     ],
+                    "xcode_settings": {
+                    "OTHER_LDFLAGS": [
+                        "-Wl,-install_name,@loader_path/$(CEF3_DIR)/Release/Chromium\ Embedded\ Framework.framework"
+                    ]
+                }
                     'cflags': [
                         '-fopenmp'
                     ],
