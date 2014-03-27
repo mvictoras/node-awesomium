@@ -21,7 +21,6 @@
                         '<!@(pkg-config --libs gtk+-2.0)',
                         '-L$(CEF3_DIR)/Release'
                         '-lcef',
-                        '-lffmpegsumo',
 ],
                     'cflags': [
                         '-fopenmp'
