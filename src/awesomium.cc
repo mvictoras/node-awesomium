@@ -51,9 +51,18 @@ WebBrowser::WebBrowser(int wallWidth, int wallHeight, int initWidth, int initHei
     std::cout << "Initializing from module webBrowser" << std::endl;
 #ifdef AWESOMIUM
 #else
+    CefMainArgs cef_args;
     CefWindowInfo window_info;
     CefBrowserSettings browserSettings;
     CefSettings settings;
+
+    int result = CefExecuteProcess(cef_args, NULL, NULL);
+    if(result >=0)
+        std::cout << "Error" << std::endl;
+
+    bool res = CefInitialize(cef_args, settings, NULL, NULL);
+    if(!res)
+        std::cout << "Error CefInit" << std::endl;
 
     clientHandler = new ClientHandler();
     bool br = CefBrowserHost::CreateBrowserSync(window_info,
