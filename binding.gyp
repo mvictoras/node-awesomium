@@ -56,10 +56,26 @@
                         '-framework', 'Chromium\ Embedded\ Framework',
                     ],
                     "xcode_settings": {
-                    "OTHER_LDFLAGS": [
-                        "-Wl,-install_name,@loader_path/..$(CEF3_DIR)/Release/Chromium\ Embedded\ Framework.framework"
-                    ]
+                        "OTHER_LDFLAGS": [
+                            "-Wl,-install_name,@loader_path/..$(CEF3_DIR)/Release/Chromium\ Embedded\ Framework.framework"
+                        ]
                     },
+                    'postbuilds': [
+                        {
+                          # The framework defines its load-time path
+                          # (DYLIB_INSTALL_NAME_BASE) relative to the main executable
+                          # (chrome).  A different relative path needs to be used in
+                          # libplugin_carbon_interpose.dylib.
+                          'postbuild_name': 'Fix Framework Link',
+                          'action': [
+                            'install_name_tool',
+                            '-change',
+                            '@executable_path/Chromium Embedded Framework',
+                            '@executable_path/../../../../Frameworks/Chromium Embedded Framework.framework/Chromium Embedded Framework',
+                            '${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}'
+                          ],
+                        },
+                    ],
                     'cflags': [
                         '-fopenmp'
                     ],
