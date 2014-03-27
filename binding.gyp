@@ -76,7 +76,7 @@
                             # (DYLIB_INSTALL_NAME_BASE) relative to the main executable
                             # (chrome).  A different relative path needs to be used in
                             # libplugin_carbon_interpose.dylib.
-                            'postbuild_name': 'Fix Framework Link',
+                            'postbuild_name': 'Fix Framework Link of .node file',
                             'action': [
                                 'install_name_tool',
                                 '-change',
@@ -96,12 +96,22 @@
                             ],
                         },
                         {
-                            'postbuild_name': 'Fix libplugin_carbon_interpose Link',
+                            'postbuild_name': 'Fix Framework Link (libplugin_carbon_interpose.dylib)',
                             'action': [
                                 'install_name_tool',
                                 '-change',
                                 '@executable_path/../../../../Frameworks/Chromium Embedded Framework.framework/Chromium Embedded Framework',
                                 '${BUILT_PRODUCTS_DIR}/Chromium Embedded Framework',
+                                '${BUILT_PRODUCTS_DIR}/libplugin_carbon_interpose.dylib'
+                            ],
+                        },
+                        {
+                            'postbuild_name': 'Fix libplugin_carbon_interpose Link of libplugin_carbon_interpose.dylib file',
+                            'action': [
+                                'install_name_tool',
+                                '-change',
+                                '/usr/local/lib/libplugin_carbon_interpose.dylib',
+                                '${BUILT_PRODUCTS_DIR}/libplugin_carbon_interpose.dylib',
                                 '${BUILT_PRODUCTS_DIR}/libplugin_carbon_interpose.dylib'
                             ],
                         },
