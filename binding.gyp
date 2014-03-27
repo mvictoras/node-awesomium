@@ -49,9 +49,9 @@
                         '-Wl,-rpath,$(CEF3_DIR)/Release',
                     ],
                     'libraries': [
+                        '-L$(CEF3_DIR)/Release/Chromium\ Embedded\ Framework.framework/Libraries',
                         '-ljpeg',
                         '-lcef',
-                        '-L$(CEF3_DIR)/Release/Chromium\ Embedded\ Framework.framework/Libraries',
                         '-L$(CEF3_DIR)/Release',
                     ],
                     'link_settings': {
