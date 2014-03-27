@@ -64,7 +64,7 @@ private:
 
     WebCore* mWebCore;
 #else
-    CefRefPtr<ClientHandler> clientHandler;
+    //CefRefPtr<ClientHandler> clientHandler;
 #endif
 
     static const char encoding_table[];

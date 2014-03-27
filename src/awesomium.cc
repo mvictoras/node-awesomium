@@ -52,7 +52,8 @@ WebBrowser::WebBrowser(int wallWidth, int wallHeight, int initWidth, int initHei
     std::cout << "Initializing from module webBrowser" << std::endl;
 #ifdef AWESOMIUM
 #else
-    CefMainArgs cef_args;
+    /*
+    CefexecuteprocessfMainArgs cef_args;
     CefWindowInfo window_info;
     CefBrowserSettings browserSettings;
     CefSettings settings;
@@ -80,6 +81,27 @@ WebBrowser::WebBrowser(int wallWidth, int wallHeight, int initWidth, int initHei
         std::cout << "FAIL!" << std::endl;
     CefRunMessageLoop();
     //clientHandler->GetBrowser()->GetMainFrame()->LoadURL("www.youtube.com");
+    */
+    CefMainArgs main_args;
+
+    int exit_code = CefExecuteProcess(main_args, NULL, NULL);
+    if (exit_code >= 0)
+        std::cout << "FAIL!" << std::endl;
+
+    CefSettings settings;
+    CefInitialize(main_args, settings, NULL, NULL);
+
+    CefBrowserSettings browserSettings;
+    CefWindowInfo window_info;
+    //window_info.SetAsOffScreen(NULL);
+
+    OSRHandler* osrHandler = new OSRHandler(1920, 1080);
+    CefRefPtr<BrowserClient> browserClient = new BrowserClient(osrHandler);
+
+    //const char* url = "http://www.evl.uic.edu"; // static page
+    const char* url = "https://www.youtube.com/watch?v=A3PDXmYoF5U"; // autoplay video (and audio)
+    //const char* url = "https://webglsamples.googlecode.com/hg/aquarium/aquarium.html"; // webgl animation
+    CefRefPtr<CefBrowser> browser = CefBrowserHost::CreateBrowserSync(window_info, browserClient.get(), url, browserSettings, NULL);
 #endif
 
 }
