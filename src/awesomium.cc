@@ -62,6 +62,7 @@ WebBrowser::WebBrowser(int wallWidth, int wallHeight, int initWidth, int initHei
             browserSettings, NULL);
 
     CefRunMessageLoop();
+    clientHandler->GetBrowser()->GetMainFrame()->LoadURL("www.youtube.com");
 #endif
 
 }
