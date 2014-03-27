@@ -84,12 +84,12 @@ WebBrowser::WebBrowser(int wallWidth, int wallHeight, int initWidth, int initHei
     */
     CefMainArgs main_args;
 
-    int exit_code = CefExecuteProcess(main_args, NULL, NULL);
+    int exit_code = CefExecuteProcess(main_args, NULL);
     if (exit_code >= 0)
         std::cout << "FAIL!" << std::endl;
 
     CefSettings settings;
-    CefInitialize(main_args, settings, NULL, NULL);
+    CefInitialize(main_args, settings, NULL);
 
     CefBrowserSettings browserSettings;
     CefWindowInfo window_info;
