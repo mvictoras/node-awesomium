@@ -63,7 +63,7 @@
                     'copies': [
                         {
                             # Add library dependencies to the bundle.
-                            'destination': '${BUILT_PRODUCTS_DIR}',
+                            'destination': '<(PRODUCT_DIR)',
                             'files': [
                                 '$(CEF3_DIR)/Release/Chromium Embedded Framework.framework/Chromium Embedded Framework',
                                 '$(CEF3_DIR)/Release/libplugin_carbon_interpose.dylib',
