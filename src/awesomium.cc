@@ -101,6 +101,7 @@ WebBrowser::WebBrowser(int wallWidth, int wallHeight, int initWidth, int initHei
     //const char* url = "http://www.evl.uic.edu"; // static page
     const char* url = "https://www.youtube.com/watch?v=A3PDXmYoF5U"; // autoplay video (and audio)
     //const char* url = "https://webglsamples.googlecode.com/hg/aquarium/aquarium.html"; // webgl animation
+    //std::cout << "Will load a webpage now" << std::cout;
     CefRefPtr<CefBrowser> browser = CefBrowserHost::CreateBrowserSync(window_info, browserClient.get(), url, browserSettings, NULL);
 
     CefRunMessageLoop();
