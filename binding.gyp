@@ -2,7 +2,7 @@
 	'targets': [{
 		'target_name': 'awesomium',
         'variables': {
-            'WIN_LIBJPEG_ROOT%': 'C:\\libjpeg-turbo\\lib\\'
+            'WIN_LIBJPEG_ROOT%': 'C:\\libjpeg-turbo\\lib\\',
         },
 		'default_configuration': 'Release',
         'conditions': [
@@ -12,20 +12,23 @@
                    'include_dirs': [
                         '$(CEF3_DIR)',
                     ],
+                    'defines': [
+                        'USING_CEF_SHARED'
+                    ],
                     'cflags_cc': [
                         '<!@(pkg-config --cflags gtk+-2.0)',
                     ],
                     'ldflags': [
                         '<!@(pkg-config --libs-only-L --libs-only-other gtk+-2.0 gthread-2.0)',
-                        '-Wl,-rpath'
+                        '-Wl,-rpath,\'$$ORIGIN/../../deps/cef3/\''
                     ],
                     'libraries': [
                         '-ljpeg',
                         '<!@(pkg-config --libs-only-l gtk+-2.0 gthread-2.0)',
-                        '-L$(CEF3_DIR)/out/Release',
+                        '-L<(module_root_dir)/deps/cef3',
                         '-lcef',
-                        '-lffmpegsumo',
-],
+                        '<(module_root_dir)/deps/cef3/libcef_dll_wrapper.a',
+                    ],
                     'cflags': [
                         '-fopenmp'
                     ],
