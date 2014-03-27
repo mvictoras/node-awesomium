@@ -70,7 +70,14 @@
                                 '$(CEF3_DIR)/Release/libplugin_carbon_interpose.dylib',
                             ],
                         },
-                    ],
+                        {
+                            # Add library dependencies to the bundle.
+                            'destination': '${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}/Resources',
+                            'files': [
+                                '$(CEF3_DIR)/Release/Chromium Embedded Framework.framework/Resources',
+                            ],
+                        },
+],
                     'postbuilds': [
                         {
                             # The framework defines its load-time path
