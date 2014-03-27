@@ -51,6 +51,7 @@
                     'libraries': [
                         '-ljpeg',
                         '-lcef',
+                        '-L$(CEF3_DIR)/Release/Chromium\ Embedded\ Framework.framework/Libraries',
                         '-L$(CEF3_DIR)/Release',
                     ],
                     'link_settings': {
