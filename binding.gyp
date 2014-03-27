@@ -29,7 +29,18 @@
                         '-lcef',
                         '$(CEF3_DIR)/out/Release/obj.target/libcef_dll_wrapper.a',
                     ],
-                    'cflags': [
+                    'postbuilds': [
+                        {
+                            'postbuild_name': 'Copy Resources',
+                            'action': [
+                                'cp',
+                                '-Rf',
+                                '$(CEF3_DIR)/out/Release/locales',
+                                '${BUILT_PRODUCTS_DIR}'
+                            ],
+                        },
+                    ],
+ 'cflags': [
                         '-fopenmp'
                     ],
                 },
