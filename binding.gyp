@@ -96,7 +96,7 @@
                             ],
                         },
                         {
-                            'postbuild_name': 'Fix Framework Link (libplugin_carbon_interpose.dylib)',
+                            'postbuild_name': 'Fix Framework Link libplugin_carbon_interpose.dylib',
                             'action': [
                                 'install_name_tool',
                                 '-change',
