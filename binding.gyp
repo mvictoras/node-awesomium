@@ -44,15 +44,12 @@
                         'USING_CEF_SHARED'
                     ],
                     'cflags_cc': [
-                        '<!@(pkg-config --cflags gtk+-2.0)',
                     ],
                     'ldflags': [
-                        '<!@(pkg-config --libs-only-L --libs-only-other gtk+-2.0 gthread-2.0)',
                         '-Wl,-rpath,$(CEF3_DIR)/Release'
                     ],
                     'libraries': [
                         '-ljpeg',
-                        '<!@(pkg-config --libs-only-l gtk+-2.0 gthread-2.0)',
                         '-L$(CEF3_DIR)/Release',
                         '-lcef',
                     ],
