@@ -47,11 +47,11 @@
                     ],
                     'ldflags': [
                         '-Wl,-rpath,$(CEF3_DIR)/Release',
-                        '-framework "Chromium Embedded Framework"',
                     ],
                     'libraries': [
                         '-ljpeg',
                         '-L$(CEF3_DIR)/Release',
+                        '$(CEF3_DIR)/Release/Chromium Embedded Framework.framework',
                     ],
                     'cflags': [
                         '-fopenmp'
