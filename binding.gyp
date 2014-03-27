@@ -54,6 +54,7 @@
                         '-L$(CEF3_DIR)/Release',
                         '-F$(CEF3_DIR)/Release',
                         '-framework', 'Chromium\ Embedded\ Framework',
+                        '$(CEF3_DIR)/xcodebuild/Debug/libcef_dll_wrapper.a',
                     ],
                     "xcode_settings": {
                         "OTHER_LDFLAGS": [
