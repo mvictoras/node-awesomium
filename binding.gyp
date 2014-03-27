@@ -55,11 +55,6 @@
                         '-framework', 'Chromium\ Embedded\ Framework',
                         '$(CEF3_DIR)/xcodebuild/Debug/libcef_dll_wrapper.a',
                     ],
-                    "xcode_settings": {
-                        "OTHER_LDFLAGS": [
-                            "-Wl,-install_name,$(CEF3_DIR)/Release/Chromium\ Embedded\ Framework.framework"
-                        ]
-                    },
                     'cflags': [
                         '-fopenmp'
                     ],
