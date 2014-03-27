@@ -18,7 +18,7 @@
                     'libraries': [
                         '-ljpeg',
                         '<!@(pkg-config --libs gtk+-2.0)',
-                        '-L$(CEF3_DIR)/Release'
+                        '-L$(CEF3_DIR)/Release',
                         '-lcef',
 ],
                     'cflags': [
