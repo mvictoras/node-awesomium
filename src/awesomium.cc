@@ -89,7 +89,7 @@ WebBrowser::WebBrowser(int wallWidth, int wallHeight, int initWidth, int initHei
         std::cout << "FAIL!" << std::endl;
 
     CefSettings settings;
-    CefString(&settings.resources_dir_path).FromASCII("~/projects/WebSAGE/node_modules/node-awesomium/build/Release/Resources");
+    CefString(&settings.resources_dir_path).FromASCII("/Users/mvictoras/projects/WebSAGE/node_modules/node-awesomium/build/Release/Resources");
     CefInitialize(main_args, settings, NULL, NULL);
 
     CefBrowserSettings browserSettings;
