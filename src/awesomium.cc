@@ -52,7 +52,7 @@ WebBrowser::WebBrowser(int wallWidth, int wallHeight, int initWidth, int initHei
     CefSettings settings;
 
     clientHandler = new ClientHandler();
-    bool br = CefBrowserHost::CreateBrowserSync(window_info,
+    bool br = CefBrowserHost::CreateBrowser(window_info,
             clientHandler.get(),
             "http://www.google.com",
             browserSettings, NULL);
