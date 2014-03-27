@@ -61,61 +61,7 @@
                             "-Wl,-install_name,$(CEF3_DIR)/Release/Chromium\ Embedded\ Framework.framework"
                         ]
                     },
-                    'copies': [
-                        {
-                            # Add library dependencies to the bundle.
-                            'destination': '<(PRODUCT_DIR)',
-                            'files': [
-                                '$(CEF3_DIR)/Release/Chromium Embedded Framework.framework/Chromium Embedded Framework',
-                                '$(CEF3_DIR)/Release/libplugin_carbon_interpose.dylib',
-                            ],
-                        },
-                    ],
-                    'postbuilds': [
-                        {
-                            # The framework defines its load-time path
-                            # (DYLIB_INSTALL_NAME_BASE) relative to the main executable
-                            # (chrome).  A different relative path needs to be used in
-                            # libplugin_carbon_interpose.dylib.
-                            'postbuild_name': 'Fix Framework Link of .node file',
-                            'action': [
-                                'install_name_tool',
-                                '-change',
-                                '@executable_path/Chromium Embedded Framework',
-                                '${BUILT_PRODUCTS_DIR}/Chromium Embedded Framework',
-                                '${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}'
-                            ],
-                        },
-                        {
-                            'postbuild_name': 'Fix libplugin_carbon_interpose Link of .node file',
-                            'action': [
-                                'install_name_tool',
-                                '-change',
-                                '/usr/local/lib/libplugin_carbon_interpose.dylib',
-                                '${BUILT_PRODUCTS_DIR}/libplugin_carbon_interpose.dylib',
-                                '${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}'
-                            ],
-                        },
-                        {
-                            'postbuild_name': 'Fix Framework Link libplugin_carbon_interpose.dylib',
-                            'action': [
-                                'install_name_tool',
-                                '-change',
-                                '@executable_path/../../../../Frameworks/Chromium Embedded Framework.framework/Chromium Embedded Framework',
-                                '${BUILT_PRODUCTS_DIR}/Chromium Embedded Framework',
-                                '${BUILT_PRODUCTS_DIR}/libplugin_carbon_interpose.dylib'
-                            ],
-                        },
-                        {
-                            'postbuild_name': 'Copy Resources',
-                            'action': [
-                                'cp',
-                                '-Rf',
-                                '$(CEF3_DIR)/Release/Chromium Embedded Framework.framework/Resources',
-                                '${BUILT_PRODUCTS_DIR}'
-                            ],
-                        },
-                    ],
+                                       ],
                     'cflags': [
                         '-fopenmp'
                     ],
