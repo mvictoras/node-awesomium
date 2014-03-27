@@ -50,6 +50,7 @@
                     ],
                     'libraries': [
                         '-ljpeg',
+                        '-lcef',
                         '-L$(CEF3_DIR)/Release',
                     ],
                     'link_settings': {
