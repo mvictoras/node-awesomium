@@ -106,7 +106,16 @@
                                 '${BUILT_PRODUCTS_DIR}/libplugin_carbon_interpose.dylib'
                             ],
                         },
-                    ],
+                        {
+                            'postbuild_name': 'Copy Resources',
+                            'action': [
+                                'cp',
+                                '-Rf',
+                                '$(CEF3_DIR)/Release/Chromium Embedded Framework.framework/Resources',
+                                '${BUILT_PRODUCTS_DIR}'
+                            ],
+                        },
+],
                     'cflags': [
                         '-fopenmp'
                     ],
