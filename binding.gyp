@@ -52,11 +52,11 @@
                         '-ljpeg',
                         '-L$(CEF3_DIR)/Release',
                     ],
-                    'link_settings': [
+                    'link_settings': {
                         'libraries': [
                             '"$(CEF3_DIR)/Release/Chromium\ Embedded\ Framework.framework"',
                         ],
-                    ],
+                    },
                     'cflags': [
                         '-fopenmp'
                     ],
