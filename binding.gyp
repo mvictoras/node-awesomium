@@ -83,6 +83,14 @@
                             '@executable_path/../../../../Frameworks/Chromium Embedded Framework.framework/Chromium Embedded Framework',
                             '@executable_path/node_modules/node-awesomium/build/Release/Chromium Embedded Framework',
                             '${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}'
+                            ],
+                            'postbuild_name': 'Fix libplugin_carbon_interpose Link',
+                            'action': [
+                                'install_name_tool',
+                            '-change',
+                            '/usr/local/lib/libplugin_carbon_interpose.dylib',
+                            '@executable_path/node_modules/node-awesomium/build/Release/libplugin_carbon_interpose.dylib',
+                            '${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}'
                                 ],
                         },
                     ],
