@@ -20,14 +20,14 @@
                     ],
                     'ldflags': [
                         '<!@(pkg-config --libs-only-L --libs-only-other gtk+-2.0 gthread-2.0)',
-                        '-Wl,-rpath,\'$$ORIGIN/../../deps/cef3/\''
+                        '-Wl,-rpath,$(CEF3_DIR)/out/Release'
                     ],
                     'libraries': [
                         '-ljpeg',
                         '<!@(pkg-config --libs-only-l gtk+-2.0 gthread-2.0)',
-                        '-L<(module_root_dir)/deps/cef3',
+                        '-L$(CEF3_DIR)/out/Release',
                         '-lcef',
-                        '<(module_root_dir)/deps/cef3/libcef_dll_wrapper.a',
+                        '$(CEF3_DIR)/out/Release/obj.target/libcef_dll_wrapper.a',
                     ],
                     'cflags': [
                         '-fopenmp'
