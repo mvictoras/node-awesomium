@@ -60,20 +60,30 @@
                             "-Wl,-install_name,@loader_path/..$(CEF3_DIR)/Release/Chromium\ Embedded\ Framework.framework"
                         ]
                     },
+                    'copies': [
+                        {
+                            # Add library dependencies to the bundle.
+                            'destination': '${BUILT_PRODUCTS_DIR}',
+                            'files': [
+                                '$(CEF3_DIR)/Release/Chromium Embedded Framework.framework/Chromium Embedded Framework',
+                                '$(CEF3_DIR)/Release/libplugin_carbon_interpose.dylib',
+                            ],
+                        },
+                    ],
                     'postbuilds': [
                         {
-                          # The framework defines its load-time path
-                          # (DYLIB_INSTALL_NAME_BASE) relative to the main executable
-                          # (chrome).  A different relative path needs to be used in
-                          # libplugin_carbon_interpose.dylib.
-                          'postbuild_name': 'Fix Framework Link',
-                          'action': [
-                            'install_name_tool',
+                            # The framework defines its load-time path
+                            # (DYLIB_INSTALL_NAME_BASE) relative to the main executable
+                            # (chrome).  A different relative path needs to be used in
+                            # libplugin_carbon_interpose.dylib.
+                            'postbuild_name': 'Fix Framework Link',
+                            'action': [
+                                'install_name_tool',
                             '-change',
                             '@executable_path/../../../../Frameworks/Chromium Embedded Framework.framework/Chromium Embedded Framework',
-                            '@executable_path/Chromium Embedded Framework',
+                            '@executable_path/node_modules/node-awesomium/build/Release/Chromium Embedded Framework',
                             '${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}'
-                          ],
+                                ],
                         },
                     ],
                     'cflags': [
