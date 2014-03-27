@@ -49,21 +49,11 @@
                         '-Wl,-rpath,$(CEF3_DIR)/Release',
                     ],
                     'libraries': [
-                        '-L$(CEF3_DIR)/Release/Chromium\ Embedded\ Framework.framework/Libraries',
                         '-ljpeg',
                         '-lplugin_carbon_interpose',
                         '-L$(CEF3_DIR)/Release',
+                        '$(CEF3_DIR)/Release/Chromium\ Embedded\ Framework.framework',
                     ],
-                    'link_settings': {
-                        'libraries': [
-                        ],
-
-                        "xcode_settings": {
-                            "OTHER_LDFLAGS": [
-                                "-Wl,-install_name,@$(CEF3_DIR)/Release/Chromium\ Embedded\ Framework.framework/Libraries/libcef.dylib",
-                            ]
-                        },
-                    },
                     'cflags': [
                         '-fopenmp'
                     ],
