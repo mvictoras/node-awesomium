@@ -46,7 +46,8 @@
                     'cflags_cc': [
                     ],
                     'ldflags': [
-                        '-Wl,-rpath,$(CEF3_DIR)/Release'
+                        '-Wl,-rpath,$(CEF3_DIR)/Release',
+                        '-framework "Chromium Embedded Framework"',
                     ],
                     'libraries': [
                         '-ljpeg',

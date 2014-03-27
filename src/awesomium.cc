@@ -82,7 +82,6 @@ WebBrowser::WebBrowser(int wallWidth, int wallHeight, int initWidth, int initHei
     CefRunMessageLoop();
     //clientHandler->GetBrowser()->GetMainFrame()->LoadURL("www.youtube.com");
     */
-    std::cout << "HAHA" << std::endl;
     CefMainArgs main_args;
 
     int exit_code = CefExecuteProcess(main_args, NULL);
