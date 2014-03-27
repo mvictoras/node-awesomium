@@ -50,7 +50,6 @@
                     ],
                     'libraries': [
                         '-ljpeg',
-                        '-lplugin_carbon_interpose',
                         '-L$(CEF3_DIR)/Release',
                         '-F$(CEF3_DIR)/Release',
                         '-framework', 'Chromium\ Embedded\ Framework',
