@@ -94,6 +94,8 @@ WebBrowser::WebBrowser(int wallWidth, int wallHeight, int initWidth, int initHei
     CefSettings settings;
     CefString(&settings.resources_dir_path).FromASCII("node_modules/node-awesomium/build/Release");
     CefString(&settings.locales_dir_path).FromASCII("node_modules/node-awesomium/build/Release/locales");
+    CefString(&settings.log_file).FromASCII("~/debug.log");
+    CefString(&settings.log_severity).FromASCII("verbose");
     CefInitialize(main_args, settings, NULL, NULL);
 
     std::cerr << "Test" << std::endl;
