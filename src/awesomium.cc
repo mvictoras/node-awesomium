@@ -93,6 +93,7 @@ WebBrowser::WebBrowser(int wallWidth, int wallHeight, int initWidth, int initHei
     CefSettings settings;
     CefString(&settings.resources_dir_path).FromASCII("node_modules/node-awesomium/build/Release");
     CefString(&settings.locales_dir_path).FromASCII("node_modules/node-awesomium/build/Release/locales");
+    settings.remote_debugging_port = 9000;
     CefInitialize(main_args, settings, NULL, NULL);
 
     std::cerr << "Test" << std::endl;
@@ -100,7 +101,7 @@ WebBrowser::WebBrowser(int wallWidth, int wallHeight, int initWidth, int initHei
     CefBrowserSettings browserSettings;
     CefWindowInfo window_info;
     //window_info.SetAsOffScreen(NULL);
-    /*
+    /
     std::cout << "In webBrowser" << std::endl;
     OSRHandler* osrHandler = new OSRHandler(1920, 1080);
     CefRefPtr<BrowserClient> browserClient = new BrowserClient(osrHandler);
@@ -112,7 +113,7 @@ WebBrowser::WebBrowser(int wallWidth, int wallHeight, int initWidth, int initHei
     CefRefPtr<CefBrowser> browser = CefBrowserHost::CreateBrowserSync(window_info, browserClient.get(), url, browserSettings, NULL);
 
     CefRunMessageLoop();
-    */
+
 #endif
 
 }
