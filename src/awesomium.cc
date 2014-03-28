@@ -95,7 +95,7 @@ WebBrowser::WebBrowser(int wallWidth, int wallHeight, int initWidth, int initHei
     CefString(&settings.resources_dir_path).FromASCII("node_modules/node-awesomium/build/Release");
     CefString(&settings.locales_dir_path).FromASCII("node_modules/node-awesomium/build/Release/locales");
     //CefString(&settings.log_file).FromASCII("~/debug.log");
-    //settings.log_severity = LOGSEVERITY_VERBOSE;
+    settings.log_severity = LOGSEVERITY_VERBOSE;
     settings.no_sandbox = true;
     settings.multi_threaded_message_loop = false;
     settings.single_process = true;
