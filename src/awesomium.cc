@@ -97,8 +97,8 @@ WebBrowser::WebBrowser(int wallWidth, int wallHeight, int initWidth, int initHei
     //CefString(&settings.log_file).FromASCII("~/debug.log");
     settings.log_severity = LOGSEVERITY_VERBOSE;
     settings.no_sandbox = true;
-    settings.multi_threaded_message_loop = false;
-    //settings.single_process = true;
+    //settings.multi_threaded_message_loop = false;
+    settings.single_process = true;
     CefInitialize(main_args, settings, NULL, NULL);
 
     std::cerr << "Test" << std::endl;
