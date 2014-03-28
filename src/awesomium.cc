@@ -90,11 +90,12 @@ WebBrowser::WebBrowser(int wallWidth, int wallHeight, int initWidth, int initHei
     if (exit_code >= 0)
         std::cout << "FAIL!" << std::endl;
 
-    std::cout << "Test" << std::endl;
     CefSettings settings;
     CefString(&settings.resources_dir_path).FromASCII("node_modules/node-awesomium/build/Release");
     CefString(&settings.locales_dir_path).FromASCII("node_modules/node-awesomium/build/Release/locales");
     CefInitialize(main_args, settings, NULL, NULL);
+
+    std::cout << "Test" << std::endl;
 
     CefBrowserSettings browserSettings;
     CefWindowInfo window_info;
