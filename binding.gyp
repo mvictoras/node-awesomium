@@ -35,17 +35,8 @@
                             'destination': '<(PRODUCT_DIR)',
                             'files': [
                                 '$(CEF3_DIR)/out/Release/locales',
-                            ],
-                        },
-                    ],
-                    'postbuilds': [
-                        {
-                            'postbuild_name': 'Copy Resources',
-                            'action': [
-                                'cp',
-                                '-Rf',
-                                '$(CEF3_DIR)/out/Release/locales',
-                                '${BUILT_PRODUCTS_DIR}',
+                                '$(CEF3_DIR)/out/Release/cef.pak',
+                                '$(CEF3_DIR)/out/Release/chrome-sandbox',
                             ],
                         },
                     ],
