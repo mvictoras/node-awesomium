@@ -122,6 +122,7 @@ WebBrowser::WebBrowser(int wallWidth, int wallHeight, int initWidth, int initHei
     browser = CefBrowserHost::CreateBrowserSync(window_info, browserClient.get(), url, browserSettings, NULL);
 
     CefRunMessageLoop();
+    CefShutdown();
 
 #endif
 
