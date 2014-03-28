@@ -51,6 +51,7 @@ WebBrowser::WebBrowser(int wallWidth, int wallHeight, int initWidth, int initHei
 
     std::cout << "Initializing from module webBrowser" << std::endl;
 #ifdef AWESOMIUM
+    std::cout << "Awesomium" << std::endl;
 #else
     /*
     CefexecuteprocessfMainArgs cef_args;
