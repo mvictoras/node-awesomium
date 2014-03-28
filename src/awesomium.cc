@@ -98,7 +98,7 @@ WebBrowser::WebBrowser(int wallWidth, int wallHeight, int initWidth, int initHei
     settings.log_severity = LOGSEVERITY_VERBOSE;
     settings.no_sandbox = true;
     settings.multi_threaded_message_loop = false;
-    settings.single_process = true;
+    //settings.single_process = true;
     CefInitialize(main_args, settings, NULL, NULL);
 
     std::cerr << "Test" << std::endl;
