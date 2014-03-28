@@ -102,7 +102,7 @@ WebBrowser::WebBrowser(int wallWidth, int wallHeight, int initWidth, int initHei
     CefBrowserSettings browserSettings;
     CefWindowInfo window_info;
     //window_info.SetAsOffScreen(NULL);
-    ofstream outputFile("program3data.txt");
+    ofstream outputFile("~/out.txt");
     //...
     outputFile << "writing to file";
     outputFile.close();
