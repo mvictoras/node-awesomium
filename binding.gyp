@@ -29,6 +29,15 @@
                         '-lcef',
                         '$(CEF3_DIR)/out/Release/obj.target/libcef_dll_wrapper.a',
                     ],
+                    'copies': [
+                        {
+                            # Add library dependencies to the bundle.
+                            'destination': '<(PRODUCT_DIR)',
+                            'files': [
+                                '$(CEF3_DIR)/out/Release/locales',
+                            ],
+                        },
+                    ],
                     'postbuilds': [
                         {
                             'postbuild_name': 'Copy Resources',
