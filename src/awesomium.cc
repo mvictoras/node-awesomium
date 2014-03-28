@@ -1,21 +1,10 @@
 #define BUILDING_NODE_EXTENSION
 #include <node.h>
 #include "awesomium.h"
-//#include "Awesomium/WebKeyboardEvent.h"
+#include "Awesomium/WebKeyboardEvent.h"
 
 #include <jpeglib.h>
 #include <stdlib.h>
-
-#include <iostream>
-#include <stdlib.h>
-
-#include <fstream>
-
-#include "include/cef_app.h"
-#include "include/cef_browser.h"
-#include "include/cef_render_handler.h"
-
-#include "cefHandler.h"
 
 #ifdef _OPENMP
 #include <omp.h>
@@ -32,7 +21,7 @@
 #define SLEEP_MS 50
 
 using namespace v8;
-using namespace std;
+
 Persistent<Function> WebBrowser::constructor;
 
 const char WebBrowser::encoding_table[] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
@@ -50,82 +39,10 @@ WebBrowser::WebBrowser(int wallWidth, int wallHeight, int initWidth, int initHei
     mWallWidth(wallWidth), mWallHeight(wallHeight),
     mInitWidth(initWidth), mInitHeight(initHeight) {
 
-    std::cout << "Initializing from module webBrowser" << std::endl;
-#ifdef AWESOMIUM
-    std::cout << "Awesomium" << std::endl;
-#else
-    /*
-    CefexecuteprocessfMainArgs cef_args;
-    CefWindowInfo window_info;
-    CefBrowserSettings browserSettings;
-    CefSettings settings;
-    std::string path(getenv ("CEF3_DIR"));
-    path = path.append("/out/Release");
+        WebConfig conf;
+        conf.log_level = kLogLevel_Verbose;
 
-    CefString(&settings.locales_dir_path).FromASCII(path.append("/locales").c_str());
-    CefString(&settings.resources_dir_path).FromASCII(path.c_str());
-
-    int result = CefExecuteProcess(cef_args, NULL, NULL);
-    if(result >=0)
-        std::cout << "Error" << std::endl;
-
-    bool res = CefInitialize(cef_args, settings, NULL, NULL);
-    if(!res)
-        std::cout << "Error CefInit" << std::endl;
-
-    clientHandler = new ClientHandler();
-    bool br = CefBrowserHost::CreateBrowserSync(window_info,
-            clientHandler.get(),
-            "http://www.google.com",
-            browserSettings, NULL);
-
-    if(!br)
-        std::cout << "FAIL!" << std::endl;
-    CefRunMessageLoop();
-    //clientHandler->GetBrowser()->GetMainFrame()->LoadURL("www.youtube.com");
-    */
-    std::cout << "Starting the configuration" << std::endl;
-    CefMainArgs main_args;
-
-    int exit_code = CefExecuteProcess(main_args, NULL, NULL);
-    if (exit_code >= 0)
-        std::cout << "FAIL!" << std::endl;
-
-    CefSettings settings;
-    CefString(&settings.resources_dir_path).FromASCII("node_modules/node-awesomium/build/Release");
-    CefString(&settings.locales_dir_path).FromASCII("node_modules/node-awesomium/build/Release/locales");
-    //CefString(&settings.log_file).FromASCII("~/debug.log");
-    //settings.log_severity = LOGSEVERITY_VERBOSE;
-    //settings.no_sandbox = true;
-    //settings.multi_threaded_message_loop = false;
-    settings.single_process = true;
-    CefInitialize(main_args, settings, NULL, NULL);
-
-    std::cerr << "Test" << std::endl;
-
-    CefBrowserSettings browserSettings;
-    CefWindowInfo window_info;
-    //window_info.SetAsOffScreen(NULL);
-    ofstream outputFile("~/out.txt");
-    //...
-    outputFile << "writing to file";
-    outputFile.close();
-
-    std::cout << "In webBrowser" << std::endl;
-    osrHandler = new OSRHandler(1920, 1080);
-    browserClient = new BrowserClient(osrHandler);
-
-    const char* url = "http://www.evl.uic.edu"; // static page
-    //const char* url = "https://www.youtube.com/watch?v=A3PDXmYoF5U"; // autoplay video (and audio)
-    //const char* url = "https://webglsamples.googlecode.com/hg/aquarium/aquarium.html"; // webgl animation
-    std::cout << "Will load a webpage now" << std::cout;
-    browser = CefBrowserHost::CreateBrowserSync(window_info, browserClient.get(), url, browserSettings, NULL);
-
-    CefRunMessageLoop();
-    CefShutdown();
-
-#endif
-
+        mWebCore = WebCore::Initialize(conf);
 }
 
 Handle<Value> WebBrowser::createWindow(const Arguments& args) {
@@ -139,7 +56,7 @@ Handle<Value> WebBrowser::createWindow(const Arguments& args) {
     String::Utf8Value argUrl(args[1]->ToString());
     std::string url(*argUrl);
 
-#ifdef AWESOMIUM
+
     obj->mViews[id] = obj->mWebCore->CreateWebView(obj->mWallWidth, obj->mWallHeight, 0, kWebViewType_Offscreen);
     obj->mViews[id]->Resize(obj->mInitWidth, obj->mInitHeight);
 
@@ -155,7 +72,6 @@ Handle<Value> WebBrowser::createWindow(const Arguments& args) {
         // required
         obj->mWebCore->Update();
     }
-#endif
 
     return scope.Close(Undefined());
 }
@@ -168,7 +84,6 @@ Handle<Value> WebBrowser::removeWindow(const Arguments& args) {
     String::Utf8Value argId(args[0]->ToString());
     std::string id(*argId);
 
-#ifdef AWESOMIUM
     {
         WebViewType::iterator it = obj->mViews.find(id);
         if(it!= obj->mViews.end()) {
@@ -190,7 +105,6 @@ Handle<Value> WebBrowser::removeWindow(const Arguments& args) {
              obj->mViewHeight.erase(it);
         }
     }
-#endif
 
     return scope.Close(Undefined());
 }
@@ -207,7 +121,6 @@ Handle<Value> WebBrowser::loadUrl(const Arguments& args) {
     String::Utf8Value argUrl(args[1]->ToString());
     std::string url(*argUrl);
 
-#ifdef AWESOMIUM
     if(obj->mViews.find(id) != obj->mViews.end()) {
 
         WebURL webUrl(WSLit(url.c_str()));
@@ -219,7 +132,6 @@ Handle<Value> WebBrowser::loadUrl(const Arguments& args) {
             obj->mWebCore->Update();
         }
     }
-#endif
 
     return scope.Close(Undefined());
 }
@@ -289,7 +201,6 @@ Handle<Value> WebBrowser::getFrame(const Arguments& args) {
     HandleScope scope;
 
     WebBrowser* obj = ObjectWrap::Unwrap<WebBrowser>(args.This());
-#ifdef AWESOMIUM
     obj->mWebCore->Update();
 
     String::Utf8Value argId(args[0]->ToString());
@@ -303,7 +214,7 @@ Handle<Value> WebBrowser::getFrame(const Arguments& args) {
         } else {
         }
     }
-#endif
+
     // XXX - Add a loading screen?
     return scope.Close(String::New(""));
 }
@@ -319,7 +230,6 @@ Handle<Value> WebBrowser::resize(const Arguments &args) {
     int width = args[1]->Int32Value();
     int height = args[2]->Int32Value();
 
-#ifdef AWESOMIUM
     if(width > obj->mWallWidth) {
         width = obj->mWallWidth;
     }
@@ -332,8 +242,6 @@ Handle<Value> WebBrowser::resize(const Arguments &args) {
         obj->mViewHeight[id] = height;
         obj->mViews[id]->Resize(width, height);
     }
-#endif
-
     return scope.Close(Undefined());
 
 }
@@ -349,14 +257,12 @@ Handle<Value> WebBrowser::click(const Arguments &args) {
     int x = args[1]->Int32Value();
     int y = args[2]->Int32Value();
 
-#ifdef AWESOMIUM
+
     if(obj->mViews.find(id) != obj->mViews.end()) {
         obj->mViews[id]->InjectMouseMove(x, y);
         obj->mViews[id]->InjectMouseDown(kMouseButton_Left);
         obj->mViews[id]->InjectMouseUp(kMouseButton_Left);
     }
-
-#endif
     return scope.Close(Undefined());
 }
 
@@ -370,14 +276,12 @@ Handle<Value> WebBrowser::keyPress(const Arguments &args) {
 
     int key = args[1]->Int32Value();
 
-#ifdef AWESOMIUM
     if(obj->mViews.find(id) != obj->mViews.end()) {
         WebKeyboardEvent keyEvent;
         keyEvent.type = WebKeyboardEvent::kTypeChar;
         keyEvent.text[0] =  key;
         obj->mViews[id]->InjectKeyboardEvent(keyEvent);
     }
-#endif
     return scope.Close(Undefined());
 }
 
