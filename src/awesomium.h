@@ -67,6 +67,7 @@ private:
     //CefRefPtr<ClientHandler> clientHandler;
     CefRefPtr<OSRHandler> osrHandler;
     CefRefPtr<BrowserClient> browserClient;
+    CefRefPtr<CefBrowser> browser;
 #endif
 
     static const char encoding_table[];
