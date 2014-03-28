@@ -101,7 +101,7 @@ WebBrowser::WebBrowser(int wallWidth, int wallHeight, int initWidth, int initHei
     CefBrowserSettings browserSettings;
     CefWindowInfo window_info;
     //window_info.SetAsOffScreen(NULL);
-    /
+
     std::cout << "In webBrowser" << std::endl;
     OSRHandler* osrHandler = new OSRHandler(1920, 1080);
     CefRefPtr<BrowserClient> browserClient = new BrowserClient(osrHandler);
