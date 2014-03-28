@@ -36,7 +36,6 @@
                             'files': [
                                 '$(CEF3_DIR)/out/Release/locales',
                                 '$(CEF3_DIR)/out/Release/cef.pak',
-                                '$(CEF3_DIR)/out/Release/chrome-sandbox',
                             ],
                         },
                     ],
