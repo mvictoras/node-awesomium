@@ -108,8 +108,8 @@ WebBrowser::WebBrowser(int wallWidth, int wallHeight, int initWidth, int initHei
     outputFile.close();
 
     std::cout << "In webBrowser" << std::endl;
-    OSRHandler* osrHandler = new OSRHandler(1920, 1080);
-    CefRefPtr<BrowserClient> browserClient = new BrowserClient(osrHandler);
+    osrHandler = new OSRHandler(1920, 1080);
+    browserClient = new BrowserClient(osrHandler);
 
     //const char* url = "http://www.evl.uic.edu"; // static page
     const char* url = "https://www.youtube.com/watch?v=A3PDXmYoF5U"; // autoplay video (and audio)
