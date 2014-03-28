@@ -9,6 +9,7 @@
 #include <iostream>
 #include <stdlib.h>
 
+#include <fstream>
 
 #include "include/cef_app.h"
 #include "include/cef_browser.h"
@@ -31,7 +32,7 @@
 #define SLEEP_MS 50
 
 using namespace v8;
-
+using namespace std;
 Persistent<Function> WebBrowser::constructor;
 
 const char WebBrowser::encoding_table[] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
@@ -101,6 +102,10 @@ WebBrowser::WebBrowser(int wallWidth, int wallHeight, int initWidth, int initHei
     CefBrowserSettings browserSettings;
     CefWindowInfo window_info;
     //window_info.SetAsOffScreen(NULL);
+    ofstream outputFile("program3data.txt");
+    //...
+    outputFile << "writing to file";
+    outputFile.close();
 
     std::cout << "In webBrowser" << std::endl;
     OSRHandler* osrHandler = new OSRHandler(1920, 1080);
