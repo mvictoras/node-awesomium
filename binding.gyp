@@ -8,7 +8,7 @@
         'conditions': [
             ['OS=="linux"', 
                 {
-		           'sources': [ 'src/awesomium.cc', "src/webBrowser.cc' ],
+		           'sources': [ 'src/awesomium.cc', 'src/webBrowser.cc' ],
                     'libraries': [
                         '-lawesomium-1-7',
                         '-ljpeg',
